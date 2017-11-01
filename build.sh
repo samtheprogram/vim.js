@@ -1,16 +1,31 @@
 #!/bin/bash
+
+
+export OPT_ASYNCIFY="-s ASYNCIFY=1 \
+    -s EXPORTED_FUNCTIONS=\"['_main', '_input_available', '_gui_web_handle_key']\" \
+    -s ASYNCIFY_FUNCTIONS=\"['emscripten_sleep', 'vimjs_flash', 'vimjs_browse']\" "
+
+export CPPFLAGS=" \
+	-DFEAT_MBYTE \
+	-DFEAT_GUI_WEB" 
+
+	# -Os \
+export CPP="gcc -E "
+
+export CFLAGS="-g -Wall -Wmissing-prototypes -O0 \
+	-s LINKABLE=1 s EXPORT_ALL=1 "
+
+export OPT_EMTERPRETER="-s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1"
+
+do_proto(){
+emmake make proto
+}
+
 do_config() {
     echo config
-# something wrong with emcc + cproto, use gcc as CPP instead
-CPPFLAGS="-Os -DFEAT_GUI_WEB" \
-CPP="gcc -E" \
-# CPPCLAGS
-# LDFLAGS 
-# CC      -> /usr/share/emscripten/emcc
-
-/usr/bin/emconfigure ./configure \
+emconfigure ./configure \
     --enable-gui=web \
-    --with-features=small \
+    --with-features=big \
     --disable-selinux \
     --disable-xsmp \
     --disable-xsmp-interact \
@@ -24,7 +39,6 @@ CPP="gcc -E" \
     --disable-cscope \
     --disable-workshop \
     --disable-netbeans \
-    --disable-sniff \
     --disable-multibyte \
     --disable-hangulinput \
     --disable-xim \
@@ -45,25 +59,31 @@ CPP="gcc -E" \
 }
 
 do_make() {
-emmake make -j8
+emmake make 
 }
 
 do_link() {
 pushd web
 cp ../src/vim vim.bc
 
-OPT_ASYNCIFY="-s ASYNCIFY=1 \
-    -s EXPORTED_FUNCTIONS=\"['_main', '_input_available', '_gui_web_handle_key']\" \
-    -s ASYNCIFY_FUNCTIONS=\"['emscripten_sleep', 'vimjs_flash', 'vimjs_browse']\" "
-
-OPT_EMTERPRETER="-s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1"
 
 
-# Use vim.js as filename to generate vim.js.mem
+
 emcc vim.bc \
-    -o vim.js \
     --js-library vim_lib.js \
-    --embed-file usr \
+	-s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 \
+ 	-Oz \
+    --closure 0 \
+    --memory-init-file 1 \
+    -o vim.js 
+
+	#--prefix="."
+#emcc vim.bc \
+#    -o vim.js \
+#    -Oz \
+#    $OPT_EMTERPRETER \
+#    --js-library vim_lib.js \
+#    --embed-file usr \
 
 popd
 }
@@ -72,8 +92,3 @@ do_copy() {
 cp web/vim.js NW.js/
 cp web/vim.js.mem NW.js/
 }
-
-#do_config
-#do_make
-do_link
-#do_copy
