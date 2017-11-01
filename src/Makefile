@@ -1498,7 +1498,6 @@ SRC =	$(BASIC_SRC) \
 	$(PYTHON_SRC) $(PYTHON3_SRC) \
 	$(TCL_SRC) \
 	$(RUBY_SRC) \
-	$(SNIFF_SRC) \
 	$(WORKSHOP_SRC) \
 	$(WSDEBUG_SRC)
 
@@ -1569,7 +1568,6 @@ OBJ_COMMON = \
 	objects/sha256.o \
 	objects/spell.o \
 	objects/syntax.o \
-	$(SNIFF_OBJ) \
 	objects/tag.o \
 	objects/term.o \
 	objects/ui.o \
@@ -2996,6 +2994,9 @@ objects/window.o: window.c vim.h auto/config.h feature.h os_unix.h ascii.h \
 objects/gui.o: gui.c vim.h auto/config.h feature.h os_unix.h ascii.h keymap.h \
   term.h macros.h option.h structs.h regexp.h gui.h ex_cmds.h proto.h \
   globals.h
+objects/gui_web.o: gui_web.c vim.h auto/config.h feature.h os_unix.h ascii.h \
+  keymap.h term.h macros.h option.h structs.h regexp.h gui.h ex_cmds.h \
+  proto.h globals.h ../pixmaps/stock_icons.h
 objects/gui_gtk.o: gui_gtk.c vim.h auto/config.h feature.h os_unix.h ascii.h \
   keymap.h term.h macros.h option.h structs.h regexp.h gui.h ex_cmds.h \
   proto.h globals.h ../pixmaps/stock_icons.h
