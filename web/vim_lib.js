@@ -74,6 +74,7 @@ var LibraryVIM = {
 
     // functions that are not exposed to C
     handle_key: function(charCode, keyCode, e) {//VIMJS_FOLD_START
+      console.log("tin handeling key: " + charCode + "," + keyCode + "," + e);
       // macros defined in keymap.h
       var modifiers = 0;
       // shift already affects charCode
@@ -108,34 +109,10 @@ var LibraryVIM = {
     // dirty works, called before the program starts
     pre_run: function () {//VIMJS_FOLD_START
       // setup directories & environment
-      ENV['USER'] = 'root';
-      ENV['HOME'] = '/root'; 
-      ENV['PWD'] = '/root';
-      ENV['_'] = '/bin/vim';
-
-      Module["FS_createPath"]("/", "root", true, true);
-      FS.currentPath = '/root';
-
-      // load .vimrc, use localStorage when possible
-      var vimrc_storage_id = 'vimjs/root/.vimrc';
-      if(typeof localStorage !== 'undefined') {
-        var stored_vimrc = localStorage[vimrc_storage_id];
-        if(stored_vimrc) {
-          Module['FS_createDataFile']('/root', '.vimrc', stored_vimrc, true, true);
-        }
-        window.addEventListener('beforeunload', function() {
-          // save ~/.vimrc upon exit
-          try {
-            localStorage[vimrc_storage_id] = FS.readFile('/root/.vimrc', { encoding: 'utf8' });
-          } catch(e) {
-          }
-          // show message about ^W
-          if((!vimjs.is_firefox) && (vimjs.ctrl_pressed)) {
-            vimjs.ctrl_pressed = false;
-            return "^W is not working on non-Firefox browsers.";
-          }
-        });
-      } 
+      ENV['USER'] = 'tinmarino';
+      ENV['HOME'] = '/'; 
+      ENV['PWD'] = '/';
+      ENV['_'] = '/vim';
     },//VIMJS_FOLD_END
 
     // load external resources
@@ -667,7 +644,6 @@ var LibraryVIM = {
         } else {
           vimjs.lastMouseDownTarget = event.target;
         }
-        //console.log("lastmousedown", vimjs.lastMouseDownTarget);
       },
       false);
 
@@ -701,6 +677,7 @@ var LibraryVIM = {
 
     /* capture some special keys that won't trigger 'keypress' */
     document.addEventListener('keydown', function(e) {
+      console.log("tin keydown: " + e.keyCode + "," + e);
       if (ignoreKeys()) return true;
       if(e.keyCode in keys_to_intercept_upon_keydown)  {
         e.preventDefault();
@@ -897,7 +874,7 @@ var LibraryVIM = {
     if(typeof font !== 'string')
       font = Pointer_stringify(font);
     if(!font)
-      font = '12px monospace';
+      font = '16px monospace';
 
     var font_test_node = vimjs.font_test_node;
     font_test_node.style.font = font;
