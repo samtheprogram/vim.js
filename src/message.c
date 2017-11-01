@@ -19,6 +19,9 @@
 # include <math.h>
 #endif
 
+// Added tinm
+vim_vsnprintf(char *str, size_t str_m, char *fmt, va_list ap, typval_T *tvs);
+
 static int other_sourcing_name __ARGS((void));
 static char_u *get_emsg_source __ARGS((void));
 static char_u *get_emsg_lnum __ARGS((void));
@@ -2234,7 +2237,7 @@ inc_msg_scrolled()
 	    tofree = alloc(len);
 	    if (tofree != NULL)
 	    {
-		vim_snprintf((char *)tofree, len, _("%s line %ld"),
+		vim_vsnprintf((char *)tofree, len, _("%s line %ld"),
 						      p, (long)sourcing_lnum);
 		p = tofree;
 	    }
@@ -4083,7 +4086,7 @@ vim_snprintf_add(str, str_m, fmt, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
 	space = 0;
     else
 	space = str_m - len;
-    return vim_vsnprintf(str + len, space, fmt,
+    return vim_snprintf(str + len, space, fmt,
 				     a1, a2, a3, a4, a5, a6, a7, a8, a9, a10);
 }
 # endif
