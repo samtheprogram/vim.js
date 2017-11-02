@@ -1471,7 +1471,7 @@ BASIC_SRC = \
 	normal.c \
 	ops.c \
 	option.c \
-	os_unix.c \
+	os_web.c \
 	auto/pathdef.c \
 	popupmnu.c \
 	quickfix.c \
@@ -1558,7 +1558,7 @@ OBJ_COMMON = \
 	objects/normal.o \
 	objects/ops.o \
 	objects/option.o \
-	objects/os_unix.o \
+	objects/os_web.o \
 	objects/pathdef.o \
 	objects/popupmnu.o \
 	objects/quickfix.o \
@@ -1631,7 +1631,6 @@ PRO_AUTO = \
 	normal.pro \
 	ops.pro \
 	option.pro \
-	os_unix.pro \
 	os_web.pro \
 	popupmnu.pro \
 	quickfix.pro \
@@ -2700,8 +2699,8 @@ objects/os_mac_conv.o: os_mac_conv.c
 objects/os_web.o: os_web.c
 	$(CCC) -o $@ os_web.c
 
-objects/os_unix.o: os_unix.c
-	$(CCC) -o $@ os_unix.c
+objects/os_unix.o: os_web.c
+	$(CCC) -o $@ os_web.c
 
 objects/os_mswin.o: os_mswin.c
 	$(CCC) -o $@ os_mswin.c
@@ -2948,7 +2947,7 @@ objects/ops.o: ops.c vim.h auto/config.h feature.h os_unix.h ascii.h keymap.h \
 objects/option.o: option.c vim.h auto/config.h feature.h os_unix.h ascii.h \
   keymap.h term.h macros.h option.h structs.h regexp.h gui.h ex_cmds.h \
   proto.h globals.h
-objects/os_unix.o: os_unix.c
+objects/os_unix.o: os_web.c
 objects/pathdef.o: auto/pathdef.c vim.h auto/config.h feature.h os_unix.h ascii.h \
   keymap.h term.h macros.h option.h structs.h regexp.h gui.h ex_cmds.h \
   proto.h globals.h
