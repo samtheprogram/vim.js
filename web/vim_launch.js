@@ -9,7 +9,7 @@ function tin_load(path, file){
 	console.log("tin: " + path + "/" + file);
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("GET", path + "/" + file, false);
-    xhttp.overrideMimeType('text/xml; charset=x-user-defined');
+    xhttp.overrideMimeType('text/plainText; charset=x-user-defined');
 	xhttp.send();
 	var res = xhttp.responseText;
 	Module["FS_createDataFile"]( "/" + path, file, res, true, true);
