@@ -5,9 +5,6 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Vim.js</title>
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Source+Code+Pro'>
 <link rel="stylesheet" href="vim.css">
 </head>
 
@@ -16,7 +13,9 @@
 
 <!-- Container -->
 <!-- <code>:e $VIM/vimrc</code> -->
-<div id="vimjs-container" class="container">
+<div id="vimjs-container" 
+  class="container"
+>
   <canvas id="vimjs-canvas"></canvas>
 </div>
 
@@ -27,15 +26,12 @@
 
 
 <!-- Workaround -->
-</div>
-<audio id="vimjs-beep" src="drip.ogg"></audio>
+<audio id="vimjs-beep" src="drip.ogg" class="vimjs-invisible"></audio>
 <input id="vimjs-file" class="vimjs-invisible" type="file">
 <div id="vimjs-font-test" class="vimjs-invisible"></div>
-<div id="vimjs-trigger-dialog" class="modal">
-        <button id="vimjs-trigger-button" type="button" class="btn btn-primary">Click Me</button>
+<div id="vimjs-trigger-dialog" class="vimjs-invisible">
+        <button id="vimjs-trigger-button" type="button" class="vimjs-invisible">Click Me</button>
 </div>
-
-
 
 <!-- AutoLoad example.js -->
 <script>
@@ -69,6 +65,9 @@
     },
   };
 </script>
+
+
+
 
   
 <!-- VIM -->
