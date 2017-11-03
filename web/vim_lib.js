@@ -51,7 +51,7 @@ var LibraryVIM = {
     window_height: 0,
 
     // styles
-    font: '12px monospace',
+    font: '20px monospace',
     fg_color: '#fff',
     bg_color: '#000',
     sp_color: '#f00',
@@ -245,8 +245,11 @@ var LibraryVIM = {
     vimjs.is_firefox = typeof InstallTrigger !== 'undefined';
     vimjs.is_chrome = !!window.chrome;
     
-    vimjs.gui_web_handle_key = Module['cwrap']('gui_web_handle_key', null, ['number', 'number', 'number', 'number']);
+    vimjs.gui_web_handle_key = Module['cwrap']('gui_web_handle_key', null, 
+      ['number', 'number', 'number', 'number']);
     vimjs.input_available = Module['cwrap']('input_available', 'number', []);
+    vimjs.gui_send_mouse_event= Module['cwrap']('gui_send_mouse_event', null, 
+      ['number', 'number', 'number', 'number', 'number']);
 
     vimjs.beep_node = document.getElementById('vimjs-beep');
 
@@ -272,9 +275,9 @@ var LibraryVIM = {
 
     var container_node = vimjs.container_node = document.getElementById('vimjs-container');
     // there might be text nodes of other stuffs before loading vim
-    container_node.removeChild(canvas_node);
-    container_node.innerHTML = '';
-    container_node.appendChild(canvas_node);
+    // container_node.removeChild(canvas_node);
+    // container_node.innerHTML = '';
+    // container_node.appendChild(canvas_node);
     container_node.style.backgroundColor = 'black';
 
     vimjs.devicePixelRatio = window.devicePixelRatio || 1;
@@ -638,6 +641,48 @@ var LibraryVIM = {
       return (vimjs.lastMouseDownTarget !== vimjs.canvas_node);
     }
 
+
+    // Mouse Down
+    var vimjs_mouse_down_event = function(event){
+        var x = event.clientX;
+        var y = event.clientY;
+        var button = event.button;
+        var str = "tinp: Down: clientX: " + x + " clientY: " + y + " pressed : " + button;
+        console.log(str);
+        vimjs.gui_send_mouse_event(button, x, y, false, 0);
+    }
+    document.addEventListener("mousedown", vimjs_mouse_down_event);
+  
+    // Mouse Wheel
+    var vimjs_mouse_wheel_event = function(event){
+        var dir = event.deltaY;
+        var x = event.clientX;
+        var y = event.clientY;
+        var button = 0;
+        if (dir > 0){
+          button = 0x200;
+        }
+        else{
+          button = 0x100;
+        }
+        var str = "tinp: Wheel: " +  dir + ", " + button;
+        console.log(str);
+        vimjs.gui_send_mouse_event(button, x, y, false, 0);
+    }
+    document.addEventListener("wheel", vimjs_mouse_wheel_event, false);
+
+    // Mouse Release
+    var vimjs_mouse_release_event = function(event){
+        var x = event.clientX;
+        var y = event.clientY;
+        var str = "tinp: Up: clientX: " + x + " clientY: " + y;
+        console.log(str);
+        vimjs.gui_send_mouse_event(3, x, y, false, 0);
+    }
+    document.addEventListener("mouseup", vimjs_mouse_release_event);
+
+
+
     document.addEventListener('mousedown', function(event) {
         if (vimjs.canvas_node.contains(event.target)) {
           vimjs.lastMouseDownTarget = vimjs.canvas_node;
@@ -746,6 +791,7 @@ var LibraryVIM = {
   },
 
   vimjs_resize: function(width, height) {
+    console.log("tinp: resize: " + width + ", " + height);
     var container_node = vimjs.container_node;
     container_node.style.width = width / vimjs.devicePixelRatio + container_node.offsetWidth - container_node.clientWidth + 'px';
     container_node.style.height = height / vimjs.devicePixelRatio + container_node.offsetHeight - container_node.clientHeight + 'px';
@@ -1030,7 +1076,7 @@ var LibraryVIM = {
     return (name in vimjs.special_keys_namemap);
   },
 
-  vimjs_dummy__: null 
+  vimjs_dummy__: null,
 };
 autoAddDeps(LibraryVIM, '$vimjs');
 mergeInto(LibraryManager.library, LibraryVIM);
