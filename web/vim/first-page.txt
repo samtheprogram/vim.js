@@ -19,14 +19,14 @@ This is an online version of Vim the text editor. v0.0.3
 ==============================================================================
 TABLE OF CONTENT                                                            **
 
-/vim/vimfiles/doc/help.txt ~
+/vim/txt/vimdoc/help.txt ~
     -> Vim Help file by Bram Mollenar
 
-/vim/doc/meta-help.txt ~
+/vim/txt/tindoc/meta-help.txt ~
     -> Help file browser by Tinmarino 
     -> My personal help files
 
-/vim/cheatsheet/doc/c-meta.txt ~
+/vim/txt/cheatdoc/c-meta.txt ~
     -> Cheatsheet collection
 
 

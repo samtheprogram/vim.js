@@ -60,19 +60,20 @@ Module.expectedDataFileDownloads++;
 Module["FS_createPath"]("/", "vim", true, true);
 Module["FS_createPath"]("/vim","syntax",true,true);
 Module["FS_createPath"]("/vim","colors",true,true);
-Module["FS_createPath"]("/vim","doc",true,true);
-Module["FS_createPath"]("/vim","vimfiles",true,true);
-Module["FS_createPath"]("/vim/vimfiles","doc",true,true);
-Module["FS_createPath"]("/vim","cheatsheet",true,true);
-Module["FS_createPath"]("/vim/cheatsheet","doc",true,true);
+Module["FS_createPath"]("/vim", "txt", true, true);
+Module["FS_createPath"]("/vim/txt", "vimdoc", true, true);
+Module["FS_createPath"]("/vim/txt", "tindoc", true, true);
+Module["FS_createPath"]("/vim/txt", "cheatdoc", true, true);
 
-// Yu heritage
-tin_load("vim", "vimrc");
-tin_load("vim/colors","Darkside.vim");
 
 tin_load("vim", "first-page.txt");
 tin_load("vim", "goat1.txt");
+
+// Vimrc
+tin_load("vim", "vimrc");
+
 // Syntax
+tin_load("vim/colors","Darkside.vim");
 tin_load("vim/syntax", "syntax.vim");
 tin_load("vim/syntax", "nosyntax.vim");
 tin_load("vim/syntax", "synload.vim");
@@ -81,6 +82,11 @@ tin_load("vim/syntax", "help.vim");
 tin_load("vim/syntax", "vim.vim");
 tin_load("vim/syntax", "sh.vim");
 tin_load("vim/syntax", "python.vim");
+
+// Index doc
+tin_load("vim/txt/vimdoc", "help.txt");
+tin_load("vim/txt/tindoc", "meta-help.txt");
+tin_load("vim/txt/cheatdoc", "c-meta.txt");
 
 // Load AnsiEsc
 // Module["FS_createPath"]("/vim", "plugin", true, true);
