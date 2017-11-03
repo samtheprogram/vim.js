@@ -9,7 +9,7 @@ function tin_load(path, file){
 	console.log("tin: " + path + "/" + file);
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("GET", path + "/" + file, false);
-    xhttp.overrideMimeType('text/plainText; charset=x-user-defined');
+    xhttp.overrideMimeType('text/xml; charset=x-user-defined');
 	xhttp.send();
 	var res = xhttp.responseText;
 	Module["FS_createDataFile"]( "/" + path, file, res, true, true);
@@ -80,7 +80,6 @@ tin_load("vim/colors","Darkside.vim");
 // Tin heritage
 tin_load("vim", "first-page.txt");
 tin_load("vim", "goat1.txt");
-tin_load("vim/cheatsheet/doc", "c-meta.txt");
 tin_load("vim/syntax", "myhelp.vim");
 tin_load("vim/syntax", "help.vim");
 tin_load("vim/syntax", "sh.vim");
