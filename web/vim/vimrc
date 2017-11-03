@@ -1,4 +1,4 @@
-!console.log('Hello vimrc 1');
+!console.log('tinp: vimrc 2');
 
 " Javascript wrap
 function! ReadDoc(file)
