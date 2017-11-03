@@ -69,7 +69,6 @@ syntax on
 
 "========== OTHERS ==========
 " Some are actually not yet supported
-set ruler
 set number
 set wildmenu
 set tabstop=4
