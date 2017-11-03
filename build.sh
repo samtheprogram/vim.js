@@ -1,21 +1,15 @@
 #!/bin/bash
 
 
-export OPT_ASYNCIFY="-s ASYNCIFY=1 \
-    -s EXPORTED_FUNCTIONS=\"['_main', '_input_available', '_gui_web_handle_key']\" \
-    -s ASYNCIFY_FUNCTIONS=\"['emscripten_sleep', 'vimjs_flash', 'vimjs_browse']\" "
-
 export CPPFLAGS=" \
 	-DFEAT_MBYTE \
 	-DFEAT_GUI_WEB" 
 
-	# -Os \
 export CPP="gcc -E "
 
 export CFLAGS="-g -Wall -Wmissing-prototypes -O0 \
 	-s LINKABLE=1 s EXPORT_ALL=1 "
 
-export OPT_EMTERPRETER="-s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1"
 
 do_proto(){
 emmake make proto
@@ -66,29 +60,29 @@ do_link() {
 pushd web
 cp ../src/vim vim.bc
 
-
-
-
 emcc vim.bc \
     --js-library vim_lib.js \
-	-s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 \
- 	-Oz \
+    -Oz \
     --closure 0 \
+    -s EMTERPRETIFY=1 \
+    -s EMTERPRETIFY_ASYNC=1 \
     --memory-init-file 1 \
     -o vim.js 
 
+popd
+}
+
+	#-s EMTERPRETIFY_FILE=\"vim_bytecode.bin\" \
 	#--prefix="."
 #emcc vim.bc \
 #    -o vim.js \
 #    -Oz \
-#    $OPT_EMTERPRETER \
 #    --js-library vim_lib.js \
 #    --embed-file usr \
 
-popd
-}
 
 do_copy() {
 cp web/vim.js NW.js/
 cp web/vim.js.mem NW.js/
 }
+# vim: expandtab: 
