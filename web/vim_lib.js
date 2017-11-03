@@ -113,6 +113,7 @@ var LibraryVIM = {
       ENV['HOME'] = '/'; 
       ENV['PWD'] = '/';
       ENV['_'] = '/vim';
+      ENV['VIMRUNTIME'] = '/vim';
     },//VIMJS_FOLD_END
 
     // load external resources
