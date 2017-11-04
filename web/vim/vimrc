@@ -5,21 +5,18 @@ silent exec '!console.log("tinp: vimrc 4")'
 " Javascript wrap
 function! ReadDoc(file)
     " Function to load a file in mem
+
   	" Get current path/file
 	if (a:file[0] == "/")
 	  let l:path = "".join(split(a:file, "/")[:-2], "/")
 	  let l:file = split(a:file, "/")[-1] 
 	else
 	  let l:path = expand("%:p:h")
-	  if (l:path[0] == "/")
-		let l:path=l:path[1:]
-	  endif
 	  let l:file = a:file
 	endif
 
   	" Load file
-	let l:cmd =  "!tin_load(" . '"' . l:path . '"' . ", " 
-	let l:cmd .=  '"' . l:file . '"' . ")"
+	let l:cmd =  '!tin_load("' .l:path."/".l:file . '")' 
 
 	" Edit file 
 	let l:file_path = "/" . l:path . "/" . l:file
