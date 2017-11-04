@@ -92,8 +92,19 @@ var LibraryVIM = {
         } 
       }
 
-      if(!handled)
-        vimjs.gui_web_handle_key(charCode || keyCode, modifiers, 0, 0);
+      if(!handled){
+        var MAX_UTF8_BYTES = 6;
+        var chars = new Uint8Array(MAX_UTF8_BYTES + 1); // null-terminated
+        var charLen = stringToUTF8Array(String.fromCharCode(charCode), chars, 0, MAX_UTF8_BYTES);
+        if (charLen == 1) {
+          vimjs.gui_web_handle_key(chars[0], modifiers, 0, 0);
+        } else {
+          // no modifers for UTF-8, should be handled in chars already
+          for (var i = 0; i < charLen; i++) {
+            vimjs.gui_web_handle_key(chars[i], 0, 0, 0);
+          }
+        }
+      }
 
     },//VIMJS_FOLD_END
 
@@ -276,9 +287,9 @@ var LibraryVIM = {
 
     var container_node = vimjs.container_node = document.getElementById('vimjs-container');
     // there might be text nodes of other stuffs before loading vim
-    // container_node.removeChild(canvas_node);
-    // container_node.innerHTML = '';
-    // container_node.appendChild(canvas_node);
+    container_node.removeChild(canvas_node);
+    container_node.innerHTML = '';
+    container_node.appendChild(canvas_node);
     container_node.style.backgroundColor = 'black';
 
     vimjs.devicePixelRatio = window.devicePixelRatio || 1;
@@ -796,14 +807,22 @@ var LibraryVIM = {
     console.log("vim_lib: resize: " + width + ", " + height);
     var container_node = vimjs.container_node;
     //container_node.style.width = width / vimjs.devicePixelRatio + container_node.offsetWidth - container_node.clientWidth + 'px';
-    // container_node.style.height = height / vimjs.devicePixelRatio + container_node.offsetHeight - container_node.clientHeight + 'px';
+    //container_node.style.height = height / vimjs.devicePixelRatio + container_node.offsetHeight - container_node.clientHeight + 'px';
     var canvas_node = vimjs.canvas_node;
     canvas_node.width = width;
     canvas_node.height = height;
   },
 
   vimjs_draw_string__deps: ['vimjs_clear_block'],
-  vimjs_draw_string: function(row, col, s, len, flags) {
+  vimjs_draw_string: function(row, col, s_ptr, len, flags) {
+    var byteArray = [];
+    for (var i = 0; i < len; i++) {
+      c = getValue(s_ptr + i, 'i8', true);
+      byteArray.push(c);
+    }
+    byteArray.push(0);
+    var s = UTF8ArrayToString(byteArray, 0);
+    len = s.length;
 
     // TODO: use macros for flag constants
     if(!(flags & 0x01)) {
@@ -812,8 +831,6 @@ var LibraryVIM = {
 
     var font = vimjs.font;
     if(flags & 0x02) font = 'bold ' + font;
-
-    s = Pointer_stringify(s, len);
 
     var ctx = vimjs.canvas_ctx;
 
