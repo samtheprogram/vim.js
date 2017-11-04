@@ -51,5 +51,9 @@ int vimjs_call_shell(char *, int);
 void vimjs_browse(char *, int, int, char*, char*);
 int vimjs_haskey(char*);
 
+//clipboard
+void vimjs_clip_set(VimClipboard *cbd);
+void vimjs_clip_get(VimClipboard *cbd);
+
 #endif // FEAT_GUI_WEB
 #endif //VIMJS_H__

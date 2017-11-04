@@ -74,7 +74,6 @@ var LibraryVIM = {
 
     // functions that are not exposed to C
     handle_key: function(charCode, keyCode, e) {//VIMJS_FOLD_START
-      console.log("tin handeling key: " + charCode + "," + keyCode + "," + e);
       // macros defined in keymap.h
       var modifiers = 0;
       // shift already affects charCode
@@ -249,6 +248,7 @@ var LibraryVIM = {
       ctx.putImageData(img, x, y);
     },
 
+
     __dummy__: null
   },
 
@@ -262,6 +262,8 @@ var LibraryVIM = {
     vimjs.input_available = Module['cwrap']('input_available', 'number', []);
     vimjs.gui_send_mouse_event= Module['cwrap']('gui_send_mouse_event', null, 
       ['number', 'number', 'number', 'number', 'number']);
+    vimjs.gui_mouse_moved= Module['cwrap']('gui_mouse_moved', null, 
+      ['number', 'number']);
 
     vimjs.beep_node = document.getElementById('vimjs-beep');
 
@@ -694,6 +696,15 @@ var LibraryVIM = {
     }
     document.addEventListener("mouseup", vimjs_mouse_release_event);
 
+    // Mouse move
+    var vimjs_mouse_move_event = function(event){
+        var x = event.clientX;
+        var y = event.clientY;
+        var str = "tinp: Up: clientX: " + x + " clientY: " + y;
+        console.log(str);
+        vimjs.gui_mouse_moved(x, y);
+    }
+    document.addEventListener("mousemove", vimjs_mouse_move_event);
 
 
     document.addEventListener('mousedown', function(event) {
@@ -757,7 +768,19 @@ var LibraryVIM = {
           vimjs.ctrl_pressed = false;
       });
     }
+  }, // End of vimjs_init()
+
+
+  // Clipboard set
+  vimjs_clip_set: function(cbd){
+    console.log("Clipboard set");
   },
+
+  // Clipboard get
+  vimjs_clip_get: function(cbd){
+    console.log("Clipboard get");
+  },
+
   
   vimjs_prepare_exit: function() {
     if(!!Module['VIMJS_ALLOW_EXIT']) {
@@ -804,10 +827,9 @@ var LibraryVIM = {
   },
 
   vimjs_resize: function(width, height) {
-    console.log("vim_lib: resize: " + width + ", " + height);
     var container_node = vimjs.container_node;
-    //container_node.style.width = width / vimjs.devicePixelRatio + container_node.offsetWidth - container_node.clientWidth + 'px';
-    //container_node.style.height = height / vimjs.devicePixelRatio + container_node.offsetHeight - container_node.clientHeight + 'px';
+    container_node.style.width = width / vimjs.devicePixelRatio + container_node.offsetWidth - container_node.clientWidth + 'px';
+    container_node.style.height = height / vimjs.devicePixelRatio + container_node.offsetHeight - container_node.clientHeight + 'px';
     var canvas_node = vimjs.canvas_node;
     canvas_node.width = width;
     canvas_node.height = height;
