@@ -10,6 +10,7 @@ export CPP="gcc -E "
 export CFLAGS="-g -Wall -Wmissing-prototypes -O0 \
 	-s LINKABLE=1 s EXPORT_ALL=1 "
 
+VIMDIR="/vim"
 
 do_proto(){
 emmake make proto
@@ -19,6 +20,7 @@ do_config() {
     echo config
 emconfigure ./configure \
     --enable-gui=web \
+    --prefix=$VIMDIR \
     --with-features=big \
     --disable-selinux \
     --disable-xsmp \
@@ -53,7 +55,7 @@ emconfigure ./configure \
 }
 
 do_make() {
-emmake make 
+emmake make VIMRUNTIMEDIR=$VIMDIR
 }
 
 do_link() {
