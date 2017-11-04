@@ -8,7 +8,7 @@ body {
 }
 
 #vimjs-container { 
-  border:3px solid; 
+  border:5px solid; 
   padding:0;
   overflow:hidden;
   line-height:1;
@@ -25,11 +25,6 @@ body {
 /* from Darkside */
 #vimjs-container em {
   color:#1cc3e8;
-}
-
-#vimjs-container h3 {
-  font-family: "Source Code Pro", monospace !important;
-  margin-top:170px;
 }
 
 /* Ths size of vim inside its canvas */
