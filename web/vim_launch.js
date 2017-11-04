@@ -105,10 +105,10 @@ Module["preRun"].push(runWithFS)}}))();
 
 
 
+tin_full_screen();
 
 
 // Include the baby 
 document.write('<script type="text/javascript" src="vim.js" ></script>')
 
 
-tin_full_screen();

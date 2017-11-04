@@ -127,7 +127,7 @@ var LibraryVIM = {
           setTimeout(cb, 1);
         };
 
-        vimjs.container_node.appendChild(vimjs.trigger_dialog_node);
+        // vimjs.container_node.appendChild(vimjs.trigger_dialog_node);
 
       } else {
         cb();
@@ -284,6 +284,7 @@ var LibraryVIM = {
     vimjs.devicePixelRatio = window.devicePixelRatio || 1;
     vimjs.window_width = container_node.clientWidth * vimjs.devicePixelRatio;
     vimjs.window_height = container_node.clientHeight * vimjs.devicePixelRatio;
+    console.log("vim_lib: " + vimjs.window_width + ", " + vimjs.window_height);
 
     _vimjs_init_font('');
 
@@ -792,10 +793,10 @@ var LibraryVIM = {
   },
 
   vimjs_resize: function(width, height) {
-    console.log("tinp: resize: " + width + ", " + height);
+    console.log("vim_lib: resize: " + width + ", " + height);
     var container_node = vimjs.container_node;
-    container_node.style.width = width / vimjs.devicePixelRatio + container_node.offsetWidth - container_node.clientWidth + 'px';
-    container_node.style.height = height / vimjs.devicePixelRatio + container_node.offsetHeight - container_node.clientHeight + 'px';
+    //container_node.style.width = width / vimjs.devicePixelRatio + container_node.offsetWidth - container_node.clientWidth + 'px';
+    // container_node.style.height = height / vimjs.devicePixelRatio + container_node.offsetHeight - container_node.clientHeight + 'px';
     var canvas_node = vimjs.canvas_node;
     canvas_node.width = width;
     canvas_node.height = height;
