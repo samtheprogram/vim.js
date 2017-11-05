@@ -340,13 +340,18 @@ function tin_get_dom_event(){
 
 
 function tin_pcharu_get(pcharu){
-  var byteArray = [];
-  for (var i = 0; i < len; i++) {
-    c = getValue(s_ptr + i, 'i8', true);
-    byteArray.push(c);
-  }
-  byteArray.push(0);
-  var s = UTF8ArrayToString(byteArray, 0);
-  var len = s.length;
-  return [s, len];
+    var byteArray = [];
+    for (var i = 0; i < len; i++) {
+      c = getValue(s_ptr + i, 'i8', true);
+      byteArray.push(c);
+    }
+    byteArray.push(0);
+    var s = UTF8ArrayToString(byteArray, 0);
+    var len = s.length;
+    return [s, len];
+}
+
+var dbg = 1;
+function log(num, str){
+  (dgb > num) && console.log(str);
 }
