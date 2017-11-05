@@ -294,7 +294,7 @@ function tin_get_color_map(){
     };
 }
 
-function tin_get_dom_event(){
+function tin_get_dom_event(KeyEvent){
     return [
     [KeyEvent.DOM_VK_UP,  'ku'],
     [KeyEvent.DOM_VK_DOWN,  'kd'],
@@ -351,7 +351,21 @@ function tin_pcharu_get(pcharu){
     return [s, len];
 }
 
-var dbg = 2;
+
+// TODO get mouse ccord good (zoom + dorber size)
+function tin_get_xy(canvas, event){
+  // 5 is the border size (in px)
+  var x = event.clientX - 10;
+  var y = event.clientY - 10;
+  return [x, y];
+}
+
+// TODO good canvas size
+function tin_get_canvas_size(){
+}
+
+
+var dbg = 3;
 function log(num, str){
   (dbg >= num) && console.log(str);
 }

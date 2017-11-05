@@ -3,24 +3,6 @@
  * vim_lib.js: connect DOM and user inputs to Vim.js
  *
  * Copyright (c) 2013,2014 Lu Wang <coolwanglu@gmail.com>
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
  */
 
 /*
@@ -304,7 +286,8 @@ var LibraryVIM = {
     if (typeof KeyEvent == "undefined") {
         var KeyEvent = tin_get_key_event();
     }
-    tin_get_dom_event().forEach(function(p) {
+    var dom_event = tin_get_dom_event(KeyEvent)
+    dom_event.forEach(function(p) {
       vimjs.special_keys[p[0]] = p[1];
       vimjs.special_keys_namemap[p[1]] = p[0];
     });
@@ -363,7 +346,7 @@ var LibraryVIM = {
         var xy = tin_get_xy(vimjs.canvas_node, event);
         var x = xy[0];
         var y = xy[1];
-        log(3, "Mouse Move: " + x + ", " + y);
+        log(9, "Mouse Move: " + y + ", " + y);
         // TODO if i did not click ? 
         // vimjs.gui_mouse_moved(x, y);
         vimjs.gui_send_mouse_event(0x43, x, y, false, 0);
@@ -413,6 +396,7 @@ var LibraryVIM = {
       log(2, "Key Down: " + e.keyCode + "," + e);
       if (ignoreKeys()) return true;
       if(e.keyCode in keys_to_intercept_upon_keydown)  {
+        log(2, "Key Down: is handled");
         e.preventDefault();
         vimjs.handle_key(0, e.keyCode, e);
       }
@@ -439,17 +423,15 @@ var LibraryVIM = {
   // void vimjs_clip_set(char_u*, int);
   // char_u* vimjs_clip_get(int clip_data_format);
   vimjs_clip_set: function(s_ptr, size){
-    // TODO get the type
-    s_ptr +=1;
     var byteArray = [];
-    for (var i = 0; i < len; i++) {
+    for (var i = 0; i < size; i++) {
       c = getValue(s_ptr + i, 'i8', true);
       byteArray.push(c);
     }
     byteArray.push(0);
     var s = UTF8ArrayToString(byteArray, 0);
     var len = s.length;
-    log(1, "Clipboard set: " + s_ptr + ": " + s + ", " + len +  ": " + size);
+    log(1, "Clipboard set: " + s_ptr + ": " + s + ": " + len +  ": " + size);
   },
 
   // Clipboard get

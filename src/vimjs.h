@@ -52,7 +52,7 @@ void vimjs_browse(char *, int, int, char*, char*);
 int vimjs_haskey(char*);
 
 //clipboard
-void vimjs_clip_set(char_u*, int);
+void vimjs_clip_set(char_u *, int);
 char_u* vimjs_clip_get();
 
 #endif // FEAT_GUI_WEB
