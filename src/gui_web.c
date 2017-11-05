@@ -519,9 +519,53 @@ gui_mch_set_text_area_pos(int x, int y, int w, int h)
 }
 
 
+// void vimjs_clip_set(char_u*, int);
+// char_u* vimjs_clip_get(int clip_data_format);
+/*
+ * Read the Windows clipboard text and put it in Vim's clipboard register.
+ */
     void
 clip_mch_request_selection(VimClipboard *cbd)
 {
+    // Copyed from windows (unix delay the work)
+    // TODO missing open and close clipboad
+    int		type = MAUTO;
+    char_u	*pAllocated = NULL;
+    char_u	*pClipText = NULL;
+    long_u	size;
+
+
+    if ((pAllocated = vimjs_clip_get()) != NULL)
+    {
+	pClipText = pAllocated;
+
+	switch (*pClipText++)	/* after ++, pClipText points to text */
+	{
+	    default:
+	    case 'L':	type = MLINE;	break;
+	    case 'C':	type = MCHAR;	break;
+#ifdef FEAT_VISUAL
+	    case 'B':	type = MBLOCK;	break;
+#endif
+	}
+    }
+
+
+    /* Did we get anything? */
+    if (pClipText == NULL){
+	return;
+    }
+
+
+    /* Since the data may have been padded with trailing nulls,
+     * determine the true string length. */
+    size = STRLEN(pClipText);
+
+    /* Copy the cleaned-up data over to Vim's clipboard "*" register. */
+    clip_yank_selection(type, pClipText, size, cbd);
+
+    /* Free the memory that Win16GetClipboardData() allocated. */
+    vim_free(pAllocated);
 }
 
 
@@ -542,6 +586,33 @@ clip_mch_own_selection(VimClipboard *cbd)
     void
 clip_mch_set_selection(VimClipboard *cbd)
 {
+
+    char_u*	pClipData = NULL;
+    long_u	clip_data_size;
+    int		clip_data_type;
+
+    /* If the '*' register isn't already filled in, fill it in now. */
+    cbd->owned = TRUE;
+    clip_get_selection(cbd);
+    cbd->owned = FALSE;
+
+    /*
+     * clip_convert_selection() returns a pointer to a buffer containing
+     * the text to send to the Windows clipboard, together with a count
+     * of the number of characters (bytes) in the buffer.  The function's
+     * return value is the 'type' of selection: MLINE, MCHAR, or MBLOCK;
+     * or -1 for failure.
+     */
+    clip_data_type = clip_convert_selection(&pClipData, &clip_data_size, cbd);
+
+    if (clip_data_type < 0)	    /* could not convert? */
+	return;			    /* early exit */
+
+    // TOO what is the format and the type 
+    vimjs_clip_set(pClipData, clip_data_size);
+
+    /* release memory allocated by clip_convert_selection() */
+    vim_free(pClipData);
 }
 
 
