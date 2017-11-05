@@ -107,14 +107,14 @@ var LibraryVIM = {
 
     },//VIMJS_FOLD_END
 
-    get_color_string: function(color) {//VIMJS_FOLD_START
+    get_color_string: function(color) {
       var bgr = [];
       for(var i = 0; i < 3; ++i) {
         bgr.push(color & 0xff);
         color >>= 8;
       }
       return 'rgb('+bgr[2]+','+bgr[1]+','+bgr[0]+')';
-    },//VIMJS_FOLD_END
+    },
 
     // dirty works, called before the program starts
     pre_run: function () {//VIMJS_FOLD_START
@@ -144,8 +144,7 @@ var LibraryVIM = {
       }
     },
     
-    // load file from different locations VIMJS_FOLD_START
-
+    // load file from different locations
     load_nothing: function (cb, buf) {
       {{{ makeSetValue('buf', 0, 0, 'i8') }}};
       setTimeout(cb, 1);
@@ -288,12 +287,6 @@ var LibraryVIM = {
     vimjs.canvas_ctx = canvas_node.getContext('2d');
 
     var container_node = vimjs.container_node = document.getElementById('vimjs-container');
-    // there might be text nodes of other stuffs before loading vim
-    container_node.removeChild(canvas_node);
-    container_node.innerHTML = '';
-    container_node.appendChild(canvas_node);
-    container_node.style.backgroundColor = 'black';
-
     vimjs.devicePixelRatio = window.devicePixelRatio || 1;
     vimjs.window_width = container_node.clientWidth * vimjs.devicePixelRatio;
     vimjs.window_height = container_node.clientHeight * vimjs.devicePixelRatio;
@@ -301,7 +294,7 @@ var LibraryVIM = {
 
     _vimjs_init_font('');
 
-    /* initialize special_keys VIMJS_FOLD_START*/
+    // initialize special_keys
     vimjs.special_keys = [];
     vimjs.special_keys_namemap = {};
     /* for closure compiler */
@@ -315,17 +308,9 @@ var LibraryVIM = {
       vimjs.special_keys[p[0]] = p[1];
       vimjs.special_keys_namemap[p[1]] = p[0];
     });
-    /* VIMJS_FOLD_END */
 
-    /* initialize color names VIMJS_FOLD_START
-     *
-     * a few colors added by Lu Wang
-     * original version from https://github.com/harthur/color-convert
-     * MIT License
-     */
     vimjs.color_map = tin_get_color_map();
 
-    /* VIMJS_FOLD_END */
     vimjs.lastMouseDownTarget = vimjs.canvas_node; // set focus on start
     var ignoreKeys = function() {
       return (vimjs.lastMouseDownTarget !== vimjs.canvas_node);
@@ -334,10 +319,11 @@ var LibraryVIM = {
 
     // Mouse Down
     var vimjs_mouse_down_event = function(event){
-        var x = event.clientX;
-        var y = event.clientY;
+        var xy = tin_get_xy(vimjs.canvas_node, event);
+        var x = xy[0];
+        var y = xy[1];
         var button = event.button;
-        var str = "Mouse Down: clientX: " + x + " clientY: " + y + " pressed : " + button;
+        var str = "Mouse Down: " + x + ", " + y + " pressed : " + button;
         log(2, str);
         vimjs.gui_send_mouse_event(button, x, y, false, 0);
     }
@@ -345,9 +331,10 @@ var LibraryVIM = {
   
     // Mouse Wheel
     var vimjs_mouse_wheel_event = function(event){
+        var xy = tin_get_xy(vimjs.canvas_node, event);
+        var x = xy[0];
+        var y = xy[1];
         var dir = event.deltaY;
-        var x = event.clientX;
-        var y = event.clientY;
         var button = 0;
         if (dir > 0){
           button = 0x200;
@@ -363,20 +350,21 @@ var LibraryVIM = {
 
     // Mouse Release
     var vimjs_mouse_release_event = function(event){
-        var x = event.clientX;
-        var y = event.clientY;
-        var str = "tinp: Up: clientX: " + x + " clientY: " + y;
-        log(2, str);
+        var xy = tin_get_xy(vimjs.canvas_node, event);
+        var x = xy[0];
+        var y = xy[1];
+        log(2, "Mouse Up: " + x + ", " + y);
         vimjs.gui_send_mouse_event(3, x, y, false, 0);
     }
     document.addEventListener("mouseup", vimjs_mouse_release_event);
 
     // Mouse move
     var vimjs_mouse_move_event = function(event){
-        var x = event.clientX;
-        var y = event.clientY;
-        var str = "tinp: Up: clientX: " + x + " clientY: " + y;
-        log(3, str);
+        var xy = tin_get_xy(vimjs.canvas_node, event);
+        var x = xy[0];
+        var y = xy[1];
+        log(3, "Mouse Move: " + x + ", " + y);
+        // TODO if i did not click ? 
         // vimjs.gui_mouse_moved(x, y);
         vimjs.gui_send_mouse_event(0x43, x, y, false, 0);
     }
@@ -518,9 +506,8 @@ var LibraryVIM = {
     var container_node = vimjs.container_node;
     container_node.style.width = width / vimjs.devicePixelRatio + container_node.offsetWidth - container_node.clientWidth + 'px';
     container_node.style.height = height / vimjs.devicePixelRatio + container_node.offsetHeight - container_node.clientHeight + 'px';
-    var canvas_node = vimjs.canvas_node;
-    canvas_node.width = width;
-    canvas_node.height = height;
+    vimjs.canvas_node.width = width;
+    vimjs.canvas_node.height = height;
   },
 
 
@@ -535,7 +522,7 @@ var LibraryVIM = {
     byteArray.push(0);
     var s = UTF8ArrayToString(byteArray, 0);
     var len = s.length;
-    log(3, "draw: " + len + ": " + s);
+    log(9, "Draw: " + len + ": " + s);
 
     // TODO: use macros for flag constants
   if(!(flags & 0x01)) {
