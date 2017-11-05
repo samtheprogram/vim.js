@@ -377,7 +377,8 @@ var LibraryVIM = {
         var y = event.clientY;
         var str = "tinp: Up: clientX: " + x + " clientY: " + y;
         console.log(str);
-        vimjs.gui_mouse_moved(x, y);
+        // vimjs.gui_mouse_moved(x, y);
+        vimjs.gui_send_mouse_event(0x43, x, y, false, 0);
     }
     document.addEventListener("mousemove", vimjs_mouse_move_event);
 
@@ -450,6 +451,8 @@ var LibraryVIM = {
   // void vimjs_clip_set(char_u*, int);
   // char_u* vimjs_clip_get(int clip_data_format);
   vimjs_clip_set: function(s_ptr, size){
+    // TODO get the type
+    s_ptr +=1;
     var byteArray = [];
     for (var i = 0; i < len; i++) {
       c = getValue(s_ptr + i, 'i8', true);
@@ -458,7 +461,7 @@ var LibraryVIM = {
     byteArray.push(0);
     var s = UTF8ArrayToString(byteArray, 0);
     var len = s.length;
-    console.log("Clipboard set: " + s + ", " + len +  ": " + size);
+    console.log("Clipboard set: " + s_ptr + ": " + s + ", " + len +  ": " + size);
   },
 
   // Clipboard get
