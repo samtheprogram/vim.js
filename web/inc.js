@@ -369,3 +369,15 @@ var dbg = 3;
 function log(num, str){
   (dbg >= num) && console.log(str);
 }
+
+function test(){
+  var KeyEvent = tin_get_key_event();
+  var dom_event = tin_get_dom_event(KeyEvent);
+  var spec = [];
+  dom_event.forEach(function(p) {
+    spec[p[0]] = p[1];
+  });
+  log(0, dom_event);
+  log(0, "------------------------------------");
+  log(0, spec);
+}

@@ -49,8 +49,12 @@ var LibraryVIM = {
     dropbox_callback: null,
     trigger_callback: null,
 
+    // Var
+    KeyEvent: null,
     // workaround for ^W on non-firefox
     ctrl_pressed: false,
+
+
 
     dropbox: null,
 
@@ -74,15 +78,21 @@ var LibraryVIM = {
       }
 
       if(!handled){
-        var MAX_UTF8_BYTES = 6;
-        var chars = new Uint8Array(MAX_UTF8_BYTES + 1); // null-terminated
-        var charLen = stringToUTF8Array(String.fromCharCode(charCode), chars, 0, MAX_UTF8_BYTES);
-        if (charLen == 1) {
-          vimjs.gui_web_handle_key(chars[0], modifiers, 0, 0);
-        } else {
-          // no modifers for UTF-8, should be handled in chars already
-          for (var i = 0; i < charLen; i++) {
-            vimjs.gui_web_handle_key(chars[i], 0, 0, 0);
+        if (keyCode == vimjs.KeyEvent.DOM_VK_ESCAPE ||
+            keyCode == vimjs.KeyEvent.DOM_VK_TAB){
+          vimjs.gui_web_handle_key(charCode || keyCode, modifiers, 0, 0);
+        }
+        else {
+          var MAX_UTF8_BYTES = 6;
+          var chars = new Uint8Array(MAX_UTF8_BYTES + 1); // null-terminated
+          var charLen = stringToUTF8Array(String.fromCharCode(charCode), chars, 0, MAX_UTF8_BYTES);
+          if (charLen == 1) {
+            vimjs.gui_web_handle_key(chars[0], modifiers, 0, 0);
+          } else {
+            // no modifers for UTF-8, should be handled in chars already
+            for (var i = 0; i < charLen; i++) {
+              vimjs.gui_web_handle_key(chars[i], 0, 0, 0);
+            }
           }
         }
       }
@@ -280,13 +290,13 @@ var LibraryVIM = {
     vimjs.special_keys = [];
     vimjs.special_keys_namemap = {};
     /* for closure compiler */
-    var KeyEvent = window.KeyEvent;
+    vimjs.KeyEvent = window.KeyEvent;
     /* for Chrome */
     /* http://stackoverflow.com/questions/1465374/javascript-event-keycode-constants/1465409#1465409 */
     if (typeof KeyEvent == "undefined") {
-        var KeyEvent = tin_get_key_event();
+        vimjs.KeyEvent = tin_get_key_event();
     }
-    var dom_event = tin_get_dom_event(KeyEvent)
+    var dom_event = tin_get_dom_event(vimjs.KeyEvent)
     dom_event.forEach(function(p) {
       vimjs.special_keys[p[0]] = p[1];
       vimjs.special_keys_namemap[p[1]] = p[0];
@@ -377,16 +387,16 @@ var LibraryVIM = {
      * C means "needed for Chrome"
      */
     var keys_to_intercept_upon_keydown = {};
-    [ KeyEvent.DOM_VK_ESCAPE, // CF
-      KeyEvent.DOM_VK_TAB, // C
-      KeyEvent.DOM_VK_BACK_SPACE, // C 
-      KeyEvent.DOM_VK_UP, // C
-      KeyEvent.DOM_VK_DOWN, // C
-      KeyEvent.DOM_VK_LEFT, // C
-      KeyEvent.DOM_VK_RIGHT, // C
-      KeyEvent.DOM_VK_DELETE, // C
-      KeyEvent.DOM_VK_PAGE_UP, // C
-      KeyEvent.DOM_VK_PAGE_DOWN, // C
+    [ vimjs.KeyEvent.DOM_VK_ESCAPE, // CF
+      vimjs.KeyEvent.DOM_VK_TAB, // C
+      vimjs.KeyEvent.DOM_VK_BACK_SPACE, // C 
+      vimjs.KeyEvent.DOM_VK_UP, // C
+      vimjs.KeyEvent.DOM_VK_DOWN, // C
+      vimjs.KeyEvent.DOM_VK_LEFT, // C
+      vimjs.KeyEvent.DOM_VK_RIGHT, // C
+      vimjs.KeyEvent.DOM_VK_DELETE, // C
+      vimjs.KeyEvent.DOM_VK_PAGE_UP, // C
+      vimjs.KeyEvent.DOM_VK_PAGE_DOWN, // C
     ].forEach(function(k) {
       keys_to_intercept_upon_keydown[k] = 1;
     });
@@ -407,12 +417,12 @@ var LibraryVIM = {
       // display dialog if ^W is pressed
       document.addEventListener('keydown', function(e) {
         if (ignoreKeys()) return true;
-        if(e.keyCode === KeyEvent.DOM_VK_CONTROL)
+        if(e.keyCode === vimjs.KeyEvent.DOM_VK_CONTROL)
           vimjs.ctrl_pressed = true;
       });
       document.addEventListener('keyup', function(e) {
         if (ignoreKeys()) return true;
-        if(e.keyCode === KeyEvent.DOM_VK_CONTROL)
+        if(e.keyCode === vimjs.KeyEvent.DOM_VK_CONTROL)
           vimjs.ctrl_pressed = false;
       });
     }
