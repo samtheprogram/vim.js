@@ -297,7 +297,7 @@ var LibraryVIM = {
     vimjs.devicePixelRatio = window.devicePixelRatio || 1;
     vimjs.window_width = container_node.clientWidth * vimjs.devicePixelRatio;
     vimjs.window_height = container_node.clientHeight * vimjs.devicePixelRatio;
-    console.log("vim_lib: " + vimjs.window_width + ", " + vimjs.window_height);
+    log(1, "init size: " + vimjs.window_width + ", " + vimjs.window_height);
 
     _vimjs_init_font('');
 
@@ -337,8 +337,8 @@ var LibraryVIM = {
         var x = event.clientX;
         var y = event.clientY;
         var button = event.button;
-        var str = "tinp: Down: clientX: " + x + " clientY: " + y + " pressed : " + button;
-        console.log(str);
+        var str = "Mouse Down: clientX: " + x + " clientY: " + y + " pressed : " + button;
+        log(2, str);
         vimjs.gui_send_mouse_event(button, x, y, false, 0);
     }
     document.addEventListener("mousedown", vimjs_mouse_down_event);
@@ -355,8 +355,8 @@ var LibraryVIM = {
         else{
           button = 0x100;
         }
-        var str = "tinp: Wheel: " +  dir + ", " + button;
-        console.log(str);
+        var str = "Mouse Wheel: " +  dir + ", " + button;
+        log(2, str);
         vimjs.gui_send_mouse_event(button, x, y, false, 0);
     }
     document.addEventListener("wheel", vimjs_mouse_wheel_event, false);
@@ -366,7 +366,7 @@ var LibraryVIM = {
         var x = event.clientX;
         var y = event.clientY;
         var str = "tinp: Up: clientX: " + x + " clientY: " + y;
-        console.log(str);
+        log(2, str);
         vimjs.gui_send_mouse_event(3, x, y, false, 0);
     }
     document.addEventListener("mouseup", vimjs_mouse_release_event);
@@ -376,7 +376,7 @@ var LibraryVIM = {
         var x = event.clientX;
         var y = event.clientY;
         var str = "tinp: Up: clientX: " + x + " clientY: " + y;
-        console.log(str);
+        log(3, str);
         // vimjs.gui_mouse_moved(x, y);
         vimjs.gui_send_mouse_event(0x43, x, y, false, 0);
     }
@@ -422,7 +422,7 @@ var LibraryVIM = {
 
     /* capture some special keys that won't trigger 'keypress' */
     document.addEventListener('keydown', function(e) {
-      console.log("tin keydown: " + e.keyCode + "," + e);
+      log(2, "Key Down: " + e.keyCode + "," + e);
       if (ignoreKeys()) return true;
       if(e.keyCode in keys_to_intercept_upon_keydown)  {
         e.preventDefault();
@@ -461,12 +461,12 @@ var LibraryVIM = {
     byteArray.push(0);
     var s = UTF8ArrayToString(byteArray, 0);
     var len = s.length;
-    console.log("Clipboard set: " + s_ptr + ": " + s + ", " + len +  ": " + size);
+    log(1, "Clipboard set: " + s_ptr + ": " + s + ", " + len +  ": " + size);
   },
 
   // Clipboard get
   vimjs_clip_get: function(){
-    console.log("Clipboard get:");
+    log(1, "Clipboard get:");
   },
 
   
@@ -535,7 +535,7 @@ var LibraryVIM = {
     byteArray.push(0);
     var s = UTF8ArrayToString(byteArray, 0);
     var len = s.length;
-    console.log("draw: " + len + ": " + s);
+    log(3, "draw: " + len + ": " + s);
 
     // TODO: use macros for flag constants
   if(!(flags & 0x01)) {

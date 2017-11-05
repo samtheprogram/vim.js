@@ -351,7 +351,7 @@ function tin_pcharu_get(pcharu){
     return [s, len];
 }
 
-var dbg = 1;
+var dbg = 2;
 function log(num, str){
-  (dgb > num) && console.log(str);
+  (dbg >= num) && console.log(str);
 }
