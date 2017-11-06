@@ -470,7 +470,7 @@ clip_own_selection(cbd)
      * Also want to check somehow that we are reading from the keyboard rather
      * than a mapping etc.
      */
-#ifdef FEAT_X11
+#if defined(FEAT_X11) || defined(FEAT_GUI_WEB)
     /* Always own the selection, we might have lost it without being
      * notified, e.g. during a ":sh" command. */
     if (cbd->available)
@@ -503,7 +503,7 @@ clip_own_selection(cbd)
 clip_lose_selection(cbd)
     VimClipboard	*cbd;
 {
-#ifdef FEAT_X11
+#if defined(FEAT_X11) || defined(FEAT_GUI_WEB)
     int	    was_owned = cbd->owned;
 #endif
     int     visual_selection = FALSE;
@@ -516,7 +516,7 @@ clip_lose_selection(cbd)
     if (visual_selection)
 	clip_clear_selection(cbd);
     clip_gen_lose_selection(cbd);
-#ifdef FEAT_X11
+#if defined(FEAT_X11) || defined(FEAT_GUI_WEB)
     if (visual_selection)
     {
 	/* May have to show a different kind of highlighting for the selected
@@ -1266,7 +1266,7 @@ clip_copy_modeless_selection(both)
     /* Make the register contents available to the outside world. */
     clip_gen_set_selection(&clip_star);
 
-#ifdef FEAT_X11
+#if defined(FEAT_X11) || defined(FEAT_GUI_WEB)
     if (both)
     {
 	/* Do the same for the '+' register. */

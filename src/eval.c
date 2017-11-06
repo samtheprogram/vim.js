@@ -12523,7 +12523,7 @@ f_has(argvars, rettv)
 #ifdef FEAT_TOOLBAR
 	"toolbar",
 #endif
-#if defined(FEAT_CLIPBOARD) && defined(FEAT_X11)
+#if defined(FEAT_CLIPBOARD) && (defined(FEAT_X11) || defined(FEAT_GUI_WEB))
 	"unnamedplus",
 #endif
 #ifdef FEAT_USR_CMDS

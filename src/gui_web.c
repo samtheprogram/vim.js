@@ -82,6 +82,9 @@ gui_mch_init(void)
     Rows = vimjs_get_window_height() / vimjs_get_char_height();
     Columns = vimjs_get_window_width() / vimjs_get_char_width();
 
+    // For clipboard
+    clip_init(TRUE);
+
     return OK;
 }
 
@@ -519,8 +522,6 @@ gui_mch_set_text_area_pos(int x, int y, int w, int h)
 }
 
 
-// void vimjs_clip_set(char_u*, int);
-// char_u* vimjs_clip_get(int clip_data_format);
 /*
  * Read the Windows clipboard text and put it in Vim's clipboard register.
  */
@@ -534,6 +535,12 @@ clip_mch_request_selection(VimClipboard *cbd)
     char_u	*pClipText = NULL;
     long_u	size;
 
+
+    if (cbd != &clip_plus){
+        vimjs_log(3, "reg is different from +");
+        return;
+    }
+    vimjs_log(3, "reg is +");
 
     if ((pAllocated = vimjs_clip_get()) != NULL)
     {
@@ -588,6 +595,7 @@ clip_mch_set_selection(VimClipboard *cbd)
 {
 
     char_u*	pClipData = NULL;
+    char_u	*clip_data_buffer;
     long_u	clip_data_size;
     int		clip_data_type;
 
@@ -596,6 +604,13 @@ clip_mch_set_selection(VimClipboard *cbd)
     clip_get_selection(cbd);
     cbd->owned = FALSE;
 
+    // Pass * register <- otherwise always prompted
+    if (cbd != &clip_plus){
+        vimjs_log(3, "reg is different from +");
+        return;
+    }
+    vimjs_log(3, "reg is +");
+    
     /*
      * clip_convert_selection() returns a pointer to a buffer containing
      * the text to send to the Windows clipboard, together with a count
@@ -608,8 +623,13 @@ clip_mch_set_selection(VimClipboard *cbd)
     if (clip_data_type < 0)	    /* could not convert? */
 	return;			    /* early exit */
 
-    // TOO what is the format and the type 
-    vimjs_clip_set(pClipData, clip_data_size);
+    // Null terminate
+    clip_data_buffer = (char_u *)lalloc(clip_data_size + 1, TRUE);
+    *(clip_data_buffer + clip_data_size) = '\0';
+    memcpy(clip_data_buffer, pClipData, clip_data_size);
+
+    // TODO what is the format and the type 
+    vimjs_clip_set(clip_data_buffer, clip_data_size);
 
     /* release memory allocated by clip_convert_selection() */
     vim_free(pClipData);

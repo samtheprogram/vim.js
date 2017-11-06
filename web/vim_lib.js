@@ -428,11 +428,8 @@ var LibraryVIM = {
     }
   }, // End of vimjs_init()
 
-
-  // Clipboard set
-  // void vimjs_clip_set(char_u*, int);
-  // char_u* vimjs_clip_get(int clip_data_format);
   vimjs_clip_set: function(s_ptr, size){
+    // UTF8 pointer -> string
     var byteArray = [];
     for (var i = 0; i < size; i++) {
       c = getValue(s_ptr + i, 'i8', true);
@@ -441,14 +438,21 @@ var LibraryVIM = {
     byteArray.push(0);
     var s = UTF8ArrayToString(byteArray, 0);
     var len = s.length;
-    log(1, "Clipboard set: " + s_ptr + ": " + s + ": " + len +  ": " + size);
+    log(1, "Clipboard set: " + s);
+    window.prompt("Copy me! (+OK)", s);
   },
 
-  // Clipboard get
   vimjs_clip_get: function(){
-    log(1, "Clipboard get:");
+	  var str = window.prompt("Press Ctrl-V! (+OK)");
+    log(1, "Clipboard get: " + str);
+    var ptr = allocate(intArrayFromString(str), 'i8', ALLOC_NORMAL)
+    return ptr;
+    _free(ptr);
   },
 
+  vimjs_log: function(num, str){
+    console.log("C: " + Pointer_stringify(str));
+  },
   
   vimjs_prepare_exit: function() {
     if(!!Module['VIMJS_ALLOW_EXIT']) {

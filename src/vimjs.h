@@ -50,6 +50,7 @@ void vimjs_print_stacktrace();
 int vimjs_call_shell(char *, int);
 void vimjs_browse(char *, int, int, char*, char*);
 int vimjs_haskey(char*);
+void vimjs_log(int, char_u*);
 
 //clipboard
 void vimjs_clip_set(char_u *, int);
