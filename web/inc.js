@@ -1,7 +1,6 @@
 
 
-function tin_get_key_event(){
-    return {
+var tin_key_event = {
     DOM_VK_CANCEL: 3,
     DOM_VK_HELP: 6,
     DOM_VK_BACK_SPACE: 8,
@@ -117,11 +116,9 @@ function tin_get_key_event(){
     DOM_VK_CLOSE_BRACKET: 221,
     DOM_VK_QUOTE: 222,
     DOM_VK_META: 224
-    };
-}
+};
 
-function tin_get_color_map(){
-    return {
+var tin_color_map = {
     aliceblue: [240,248,255],
     antiquewhite: [250,235,215],
     aqua: [0,255,255],
@@ -291,52 +288,71 @@ function tin_get_color_map(){
     whitesmoke: [245,245,245],
     yellow: [255,255,0],
     yellowgreen: [154,205,50]
-    };
-}
+};
 
-function tin_get_dom_event(KeyEvent){
-    return [
-    [KeyEvent.DOM_VK_UP,  'ku'],
-    [KeyEvent.DOM_VK_DOWN,  'kd'],
-    [KeyEvent.DOM_VK_LEFT,  'kl'],
-    [KeyEvent.DOM_VK_RIGHT, 'kr'],
-    [KeyEvent.DOM_VK_F1,  'k1'],
-    [KeyEvent.DOM_VK_F2,  'k2'],
-    [KeyEvent.DOM_VK_F3,  'k3'],
-    [KeyEvent.DOM_VK_F4,  'k4'],
-    [KeyEvent.DOM_VK_F5,  'k5'],
-    [KeyEvent.DOM_VK_F6,  'k6'],
-    [KeyEvent.DOM_VK_F7,  'k7'],
-    [KeyEvent.DOM_VK_F8,  'k8'],
-    [KeyEvent.DOM_VK_F9,  'k9'],
-    [KeyEvent.DOM_VK_F10,   'k;'],
-    [KeyEvent.DOM_VK_F11,   'F1'],
-    [KeyEvent.DOM_VK_F12,   'F2'],
-    [KeyEvent.DOM_VK_F13,   'F3'],
-    [KeyEvent.DOM_VK_F14,   'F4'],
-    [KeyEvent.DOM_VK_F15,   'F5'],
-    [KeyEvent.DOM_VK_F16,   'F6'],
-    [KeyEvent.DOM_VK_F17,   'F7'],
-    [KeyEvent.DOM_VK_F18,   'F8'],
-    [KeyEvent.DOM_VK_F19,   'F9'],
-    [KeyEvent.DOM_VK_F20,   'FA'],
-    [KeyEvent.DOM_VK_F21,   'FB'],
-    [KeyEvent.DOM_VK_F22,   'FC'],
-    [KeyEvent.DOM_VK_F23,   'FD'],
-    [KeyEvent.DOM_VK_F24,   'FE'],
-    [KeyEvent.DOM_VK_PAUSE,  'FB'], // equal to F21, see gui_gtk_x11.c
-    [KeyEvent.DOM_VK_HELP,   '%1'],
-    [KeyEvent.DOM_VK_BACK_SPACE, 'kb'],
-    [KeyEvent.DOM_VK_INSERT, 'kI'],
-    [KeyEvent.DOM_VK_DELETE, 'kD'],
-    [KeyEvent.DOM_VK_CLEAR,  'kC'],
-    [KeyEvent.DOM_VK_HOME,   'kh'],
-    [KeyEvent.DOM_VK_END,  '@7'],
-    [KeyEvent.DOM_VK_PAGE_UP,   'kP'],
-    [KeyEvent.DOM_VK_PAGE_DOWN, 'kN'],
-    [KeyEvent.DOM_VK_PRINT,  '%9'],
-    ];
-}
+var tin_dom_event = [
+    [tin_key_event.DOM_VK_UP,  'ku'],
+    [tin_key_event.DOM_VK_DOWN,  'kd'],
+    [tin_key_event.DOM_VK_LEFT,  'kl'],
+    [tin_key_event.DOM_VK_RIGHT, 'kr'],
+    [tin_key_event.DOM_VK_F1,  'k1'],
+    [tin_key_event.DOM_VK_F2,  'k2'],
+    [tin_key_event.DOM_VK_F3,  'k3'],
+    [tin_key_event.DOM_VK_F4,  'k4'],
+    [tin_key_event.DOM_VK_F5,  'k5'],
+    [tin_key_event.DOM_VK_F6,  'k6'],
+    [tin_key_event.DOM_VK_F7,  'k7'],
+    [tin_key_event.DOM_VK_F8,  'k8'],
+    [tin_key_event.DOM_VK_F9,  'k9'],
+    [tin_key_event.DOM_VK_F10,   'k;'],
+    [tin_key_event.DOM_VK_F11,   'F1'],
+    [tin_key_event.DOM_VK_F12,   'F2'],
+    [tin_key_event.DOM_VK_F13,   'F3'],
+    [tin_key_event.DOM_VK_F14,   'F4'],
+    [tin_key_event.DOM_VK_F15,   'F5'],
+    [tin_key_event.DOM_VK_F16,   'F6'],
+    [tin_key_event.DOM_VK_F17,   'F7'],
+    [tin_key_event.DOM_VK_F18,   'F8'],
+    [tin_key_event.DOM_VK_F19,   'F9'],
+    [tin_key_event.DOM_VK_F20,   'FA'],
+    [tin_key_event.DOM_VK_F21,   'FB'],
+    [tin_key_event.DOM_VK_F22,   'FC'],
+    [tin_key_event.DOM_VK_F23,   'FD'],
+    [tin_key_event.DOM_VK_F24,   'FE'],
+    [tin_key_event.DOM_VK_PAUSE,  'FB'], // equal to F21, see gui_gtk_x11.c
+    [tin_key_event.DOM_VK_HELP,   '%1'],
+    [tin_key_event.DOM_VK_BACK_SPACE, 'kb'],
+    [tin_key_event.DOM_VK_INSERT, 'kI'],
+    [tin_key_event.DOM_VK_DELETE, 'kD'],
+    [tin_key_event.DOM_VK_CLEAR,  'kC'],
+    [tin_key_event.DOM_VK_HOME,   'kh'],
+    [tin_key_event.DOM_VK_END,  '@7'],
+    [tin_key_event.DOM_VK_PAGE_UP,   'kP'],
+    [tin_key_event.DOM_VK_PAGE_DOWN, 'kN'],
+    [tin_key_event.DOM_VK_PRINT,  '%9'],
+];
+
+/* 
+ * Most keys can be handled during the keypress event
+ * But some special keys must be handled during the keydown event in order to prevent default actions
+ *
+ * F means "needed for Firefox"
+ * C means "needed for Chrome"
+ */
+var tin_keys_to_intercept_upon_keydown = {};
+    [ tin_key_event.DOM_VK_ESCAPE, // CF
+      tin_key_event.DOM_VK_TAB, // C
+      tin_key_event.DOM_VK_BACK_SPACE, // C 
+      tin_key_event.DOM_VK_UP, // C
+      tin_key_event.DOM_VK_DOWN, // C
+      tin_key_event.DOM_VK_LEFT, // C
+      tin_key_event.DOM_VK_RIGHT, // C
+      tin_key_event.DOM_VK_DELETE, // C
+      tin_key_event.DOM_VK_PAGE_UP, // C
+      tin_key_event.DOM_VK_PAGE_DOWN, // C
+    ].forEach(function(k) {
+tin_keys_to_intercept_upon_keydown[k] = 1;
+});
 
 
 function tin_pcharu_get(pcharu){
@@ -365,16 +381,14 @@ function tin_get_canvas_size(){
 }
 
 
-var dbg = 3;
+var dbg = 6;
 function log(num, str){
   (dbg >= num) && console.log(str);
 }
 
 function test(){
-  var KeyEvent = tin_get_key_event();
-  var dom_event = tin_get_dom_event(KeyEvent);
   var spec = [];
-  dom_event.forEach(function(p) {
+  tin_dom_event.forEach(function(p) {
     spec[p[0]] = p[1];
   });
   log(0, dom_event);

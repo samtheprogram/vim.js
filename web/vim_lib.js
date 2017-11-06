@@ -78,10 +78,10 @@ var LibraryVIM = {
       }
 
       if(!handled){
-        if (keyCode == vimjs.KeyEvent.DOM_VK_ESCAPE ||
-            keyCode == vimjs.KeyEvent.DOM_VK_TAB){
+      if(keyCode in  Object.keys(tin_dom_event))  {
+          log(5, "Key " + keyCode + "is intercepted");
           vimjs.gui_web_handle_key(charCode || keyCode, modifiers, 0, 0);
-        }
+      }
         else {
           var MAX_UTF8_BYTES = 6;
           var chars = new Uint8Array(MAX_UTF8_BYTES + 1); // null-terminated
@@ -294,15 +294,15 @@ var LibraryVIM = {
     /* for Chrome */
     /* http://stackoverflow.com/questions/1465374/javascript-event-keycode-constants/1465409#1465409 */
     if (typeof KeyEvent == "undefined") {
-        vimjs.KeyEvent = tin_get_key_event();
+        vimjs.KeyEvent = tin_key_event;
     }
-    var dom_event = tin_get_dom_event(vimjs.KeyEvent)
+    var dom_event = tin_dom_event;
     dom_event.forEach(function(p) {
       vimjs.special_keys[p[0]] = p[1];
       vimjs.special_keys_namemap[p[1]] = p[0];
     });
 
-    vimjs.color_map = tin_get_color_map();
+    vimjs.color_map = tin_color_map;
 
     vimjs.lastMouseDownTarget = vimjs.canvas_node; // set focus on start
     var ignoreKeys = function() {
@@ -379,34 +379,13 @@ var LibraryVIM = {
       vimjs.handle_key(e.charCode, e.keyCode, e);
     });
 
-    /* 
-     * Most keys can be handled during the keypress event
-     * But some special keys must be handled during the keydown event in order to prevent default actions
-     *
-     * F means "needed for Firefox"
-     * C means "needed for Chrome"
-     */
-    var keys_to_intercept_upon_keydown = {};
-    [ vimjs.KeyEvent.DOM_VK_ESCAPE, // CF
-      vimjs.KeyEvent.DOM_VK_TAB, // C
-      vimjs.KeyEvent.DOM_VK_BACK_SPACE, // C 
-      vimjs.KeyEvent.DOM_VK_UP, // C
-      vimjs.KeyEvent.DOM_VK_DOWN, // C
-      vimjs.KeyEvent.DOM_VK_LEFT, // C
-      vimjs.KeyEvent.DOM_VK_RIGHT, // C
-      vimjs.KeyEvent.DOM_VK_DELETE, // C
-      vimjs.KeyEvent.DOM_VK_PAGE_UP, // C
-      vimjs.KeyEvent.DOM_VK_PAGE_DOWN, // C
-    ].forEach(function(k) {
-      keys_to_intercept_upon_keydown[k] = 1;
-    });
 
     /* capture some special keys that won't trigger 'keypress' */
     document.addEventListener('keydown', function(e) {
-      log(2, "Key Down: " + e.keyCode + "," + e);
+      log(3, "Key Down: " + e.keyCode + "," + e);
       if (ignoreKeys()) return true;
-      if(e.keyCode in keys_to_intercept_upon_keydown)  {
-        log(2, "Key Down: is handled");
+      if(e.keyCode in tin_keys_to_intercept_upon_keydown)  {
+        log(3, "Key Down: is handled");
         e.preventDefault();
         vimjs.handle_key(0, e.keyCode, e);
       }
