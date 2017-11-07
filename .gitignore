@@ -1,3 +1,5 @@
+src/proto/
+src/xxd/xxd
 src/objects/
 src/auto/
 src/vim
