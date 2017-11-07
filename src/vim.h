@@ -228,6 +228,9 @@
 #undef HAVE_SELINUX
 #undef HAVE_ICONV
 
+// vim_vsnprintf defined from system stdarg.h
+# define HAVE_STDARG_H
+
 #endif // FEAT_GUI_WEB
 
 #include "feature.h"	/* #defines for optionals and features */
