@@ -1,0 +1,6 @@
+[submodule "web/vim/txt/cheatdoc"]
+	path = web/vim/txt/cheatdoc
+	url = https://github.com/tinmarino/Vimcheat
+[submodule "web/vim/txt/tindoc"]
+	path = web/vim/txt/tindoc
+	url = https://github.com/tinmarino/Vimdoc
