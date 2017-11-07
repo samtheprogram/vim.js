@@ -35,12 +35,12 @@ function! ReadWrapper(word)
   silent call ReadDoc(l:file)
 endfunction
 
-function OpenXref(link)
+function! OpenXref(link)
 	let l:cmd =  "!tin_href('" . a:link . "', '<-vim.js');"
     execute l:cmd
 endfunction
 
-function DownloadFile()
+function! DownloadFile()
     " Download buffer content with filename
     let l:filename = expand("%:t")
     let l:content = join(getline(1,'$'), "<tincr>")
@@ -50,17 +50,93 @@ function DownloadFile()
     silent execute l:cmd
 endfunction
 
+" Pluggin dit
+let g:d_plugin = {}
+"AnsiEscape
+let g:d_plugin["ansiesc"] = ["https://github.com/powerman/vim-plugin-AnsiEsc"]
+call add(g:d_plugin["ansiesc"], "autoload/AnsiEsc.vim")
+call add(g:d_plugin["ansiesc"], "plugin/AnsiEscPlugin.vim")
+call add(g:d_plugin["ansiesc"], "plugin/cecutil.vim")
+
+let g:d_plugin["airline"] = "https://github.com/vim-airline/vim-airline"
+let g:d_plugin["ctrlp"] = "https://github.com/kien/ctrlp.vim"
+let g:d_plugin["surround"] = "https://github.com/tpope/vim-surround"
+let g:d_plugin["nerdtree"] = "https://github.com/scrooloose/nerdtree"
+let g:d_plugin["none"] = "nothing"
+
+function! LoadPlugin(name)
+    " Load plugin if name in a list
+    echom "Loading Plugin: " . a:name
+    let l:index = index(keys(g:d_plugin), a:name)
+    if (index == -1) | ret | endif
+
+    " Let path
+    let l:out_path = '/vim/plugin/' . a:name . "/"
+
+    " Create dir
+    let l:cmd = '!Module["FS_createPath"]("/vim/plugin", "'
+    let l:cmd .= a:name . '", true, true);'
+    echom "Cmd1: " . l:cmd
+    silent execute l:cmd
+    let l:cmd_p = '!Module["FS_createPath"]("/vim/plugin/' . a:name . '", '
+    let l:cmd_p .= '"plugin", true, true);'
+    echom "Cmdp: " . l:cmd_p
+    silent execute l:cmd_p
+    let l:cmd_a = '!Module["FS_createPath"]("/vim/plugin/' . a:name . '", '
+    let l:cmd_a .= '"autoload", true, true);'
+    echom "Cmda: " . l:cmd_a
+    silent execute l:cmd_a
+    
+
+    " Download Raw files
+    " https://api.github.com/repos/powerman/vim-plugin-AnsiEsc/tarball/master
+    " https://raw.githubusercontent.com/powerman/vim-plugin-AnsiEsc/master/plugin/cecutil.vim
+    let l:d_list = g:d_plugin[a:name]
+    let l:url = l:d_list[0]
+    call remove(l:d_list, 0)
+    for l:sub_path in l:d_list
+      let l:cmd2 = '!tin_url("'
+      let l:cmd2 .= l:out_path . l:sub_path
+      let l:cmd2 .= '", "'
+      let l:cmd2 .= substitute(l:url, 'github.com', 'raw.githubusercontent.com', '')
+      let l:cmd2 .= '/master/'
+      let l:cmd2 .= l:sub_path
+      let l:cmd2 .= '");'
+      echom "Cmd2: " . l:cmd2
+      silent execute l:cmd2
+      " Source here 
+      execute "source " . l:out_path . "/" . l:sub_path
+    endfor
+
+    " Runtime path
+    let &runtimepath.=",/vim/plugin/" . a:name
+
+endfunction
+
+function! CompletePlugin(ArgLead, CmdLine, CursorPos)
+  let l:plugin = keys(g:d_plugin)
+  let l:res = []
+  for l:elt in l:plugin
+   if (match(l:elt, a:ArgLead) != -1)
+     call add(l:res, l:elt)
+   endif
+  endfor
+  return l:res
+endfunction
+
 
 " Vim
 " As autocmd otherwise CR is interpreted ... 
 au VimEnter * map gf gEWvE"fy:call ReadWrapper(@f)<CR>
 au VimEnter * map gx gEWvE"fy:call OpenXref(@f)<CR>
 au VimEnter * map gs :call DownloadFile()<CR>
+command! -nargs=1 -complete=customlist,CompletePlugin Plug call LoadPlugin(<q-args>)
+
 
 " Use monospace fonts only!
 set guifont=14px\ \"Source\ Code\ Pro\"\\,monospace
 
-so $VIMRUNTIME/syntax/syntax.vim
+silent so $VIMRUNTIME/syntax/syntax.vim
 colorscheme Darkside
 
 
@@ -83,7 +159,6 @@ set shiftwidth=4
 
 "========== PLUGGIN ==========
 
-let &runtimepath.=",./vim/plugin/ansiesc"
 
 
 "========== EXPERIMENTAL (not in Vim) ==========
