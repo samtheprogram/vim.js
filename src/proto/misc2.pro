@@ -1,4 +1,5 @@
 /* misc2.c */
+int virtual_active __ARGS((void));
 int getviscol __ARGS((void));
 int getviscol2 __ARGS((colnr_T col, colnr_T coladd));
 int coladvance_force __ARGS((colnr_T wcol));
@@ -43,6 +44,7 @@ void vim_strncpy __ARGS((char_u *to, char_u *from, size_t len));
 void vim_strcat __ARGS((char_u *to, char_u *from, size_t tosize));
 int copy_option_part __ARGS((char_u **option, char_u *buf, int maxlen, char *sep_chars));
 void vim_free __ARGS((void *x));
+int vim_memcmp __ARGS((void *b1, void *b2, size_t len));
 int vim_stricmp __ARGS((char *s1, char *s2));
 int vim_strnicmp __ARGS((char *s1, char *s2, size_t len));
 char_u *vim_strchr __ARGS((char_u *string, int c));
@@ -76,6 +78,7 @@ void set_fileformat __ARGS((int t, int opt_flags));
 int default_fileformat __ARGS((void));
 int call_shell __ARGS((char_u *cmd, int opt));
 int get_real_state __ARGS((void));
+int after_pathsep __ARGS((char_u *b, char_u *p));
 int same_directory __ARGS((char_u *f1, char_u *f2));
 int vim_chdirfile __ARGS((char_u *fname));
 int illegal_slash __ARGS((char *name));
