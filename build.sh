@@ -8,7 +8,9 @@ export CPPFLAGS=" \
 export CPP="gcc -E "
 
 export CFLAGS="-g -Wall -Wmissing-prototypes -O0 \
-	-s LINKABLE=1 s EXPORT_ALL=1 "
+	-s LINKABLE=1 s EXPORT_ALL=1 \
+    -s EXPORTED_FUNCTIONS=['_main_','_input_available','_gui_web_handle_key','_gui_send_mouse_event','_gui_mouse_move'] \
+"
 
 VIMDIR="/vim"
 
@@ -51,6 +53,9 @@ emconfigure ./configure \
     --disable-gpm \
     --disable-sysmouse \
     --disable-nls \
+    --with-local-dir="/" \
+    --disable-smack \
+    --disable-channel \
     --with-compiledby="Tinmarino" 
 }
 
@@ -62,18 +67,22 @@ do_link() {
 pushd web
 cp ../src/vim vim.bc
 
-emcc vim.bc \
+emcc  \
     --js-library vim_lib.js \
-    -Oz \
+    -O2 \
     --closure 0 \
     -s EMTERPRETIFY=1 \
     -s EMTERPRETIFY_ASYNC=1 \
+    -s 'EMTERPRETIFY_FILE="vimjs.dat"' \
     --memory-init-file 1 \
+    vim.bc \
     -o vim.js 
 
 popd
 }
 
+    #-s 'EMTERPRETIFY_FILE="vimjs.dat"' \
+    #-s EXPORTED_FUNCTIONS="['_main','_input_available','_gui_web_handle_key','_gui_send_mouse_event','_gui_mouse_move']" \
 	#-s EMTERPRETIFY_FILE=\"vim_bytecode.bin\" \
 	#--prefix="."
 #emcc vim.bc \

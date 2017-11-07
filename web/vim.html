@@ -77,34 +77,6 @@ body {
         <button id="vimjs-trigger-button" type="button" class="vimjs-invisible">Click Me</button>
 </div>
 
-<!-- AutoLoad example.js -->
-<script>
-  var Module = {
-    noInitialRun: false,
-    noExitRuntime: true,
-    arguments: ['vim/goat1.txt'],
-    preRun: [ function() { vimjs.pre_run(); } ],
-    postRun: [],
-    print: function() { 
-      if (console.group !== undefined) {
-        console.group.apply(console, arguments); 
-        console.groupEnd();
-      } else {
-        // IE
-        console.log(arguments);
-      }
-    },
-    printErr: function() { 
-      if (console.group !== undefined) {
-        console.group.apply(console, arguments); 
-        console.groupEnd();
-      } else {
-        // IE
-        console.log(arguments);
-      }
-    },
-  };
-</script>
 
 
 

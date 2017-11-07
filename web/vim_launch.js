@@ -1,16 +1,19 @@
+document.write('<script type="text/javascript" src="inc.js" ></script>')
 
+// Prepare ground
 function tin_init(){
-    // Create path 
+    // Create path
     Module["FS_createPath"]("/", "vim", true, true);
-    Module["FS_createPath"]("/vim","plugin",true,true);
-    Module["FS_createPath"]("/vim","syntax",true,true);
-    Module["FS_createPath"]("/vim","colors",true,true);
+    Module["FS_createPath"]("/vim", "plugin", true, true);
+    Module["FS_createPath"]("/vim", "syntax", true, true);
+    Module["FS_createPath"]("/vim", "colors", true, true);
     Module["FS_createPath"]("/vim", "txt", true, true);
     Module["FS_createPath"]("/vim/txt", "vimdoc", true, true);
     Module["FS_createPath"]("/vim/txt", "tindoc", true, true);
     Module["FS_createPath"]("/vim/txt", "cheatdoc", true, true);
+    Module["FS_createPath"]("/vim/txt", "mess", true, true);
 
-
+    // Load pages
     tin_load("/vim/first-page.txt");
     tin_load("/vim/goat1.txt");
 
@@ -33,12 +36,59 @@ function tin_init(){
     tin_load("/vim/txt/tindoc/meta-help.txt");
     tin_load("/vim/txt/cheatdoc/c-meta.txt");
 
+    // Resize
+    tin_full_screen();
+
 }
 
 
+// Define Module
+var Module = {
+  noInitialRun: false,
+  noExitRuntime: true,
+  arguments: ['vim/goat1.txt'],
+  preRun: [ function() { vimjs.pre_run(); } ],
+  postRun: [],
+  print: function() {
+    if (console.group !== undefined) {
+      console.group.apply(console, arguments);
+      console.groupEnd();
+    } else {
+      // IE
+      console.log(arguments);
+    }
+  },
+  printErr: function() {
+    if (console.group !== undefined) {
+      console.group.apply(console, arguments);
+      console.groupEnd();
+    } else {
+      // IE
+      console.log(arguments);
+    }
+  },
+};
 
-var Module;
-if(typeof Module==="undefined")Module=eval("(function() { try { return Module || {} } catch(e) { return {} } })()");
+// Load dat
+console.log(1, "OK 1");
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'vimjs.dat', true);
+xhr.responseType = 'arraybuffer';
+xhr.onload = function() {
+  Module.emterpreterFile = xhr.response;
+  var script = document.createElement('script');
+  script.src = "vimjsdat.js";
+  document.body.appendChild(script);
+};
+xhr.send();
+console.log(1, "OK 2");
+
+
+
+
+// Load init + save bugs
+if(typeof Module==="undefined")
+  Module=eval("(function() { try { return Module || {} } catch(e) { return {} } })()");
 if(!Module.expectedDataFileDownloads){
 	Module.expectedDataFileDownloads=0;
 	Module.finishedDataFileDownloads=0}
@@ -60,8 +110,7 @@ Module["preRun"].push(runWithFS)}}))();
 
 
 
-// Include the baby 
-document.write('<script type="text/javascript" src="inc.js" ></script>')
+// Include the baby
 document.write('<script type="text/javascript" src="vim.js" ></script>')
 
 
