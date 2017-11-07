@@ -4160,7 +4160,9 @@ ex_display(eap)
 	 * When it's a clipboard register, fill it with the current contents
 	 * of the clipboard.  */
 	adjust_clip_reg(&name);
+#ifndef FEAT_GUI_WEB
 	(void)may_get_selection(name);
+#endif //ndef FEAT_GUI_WEB
 #endif
 
 	if (i == -1)
