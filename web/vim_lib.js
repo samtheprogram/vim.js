@@ -418,11 +418,11 @@ var LibraryVIM = {
     var s = UTF8ArrayToString(byteArray, 0);
     var len = s.length;
     log(1, "Clipboard set: " + s);
-    window.prompt("Copy me! (+OK)", s);
+    window.prompt("Copy:\n<C-C><CR>", s);
   },
 
   vimjs_clip_get: function(){
-	  var str = window.prompt("Press Ctrl-V! (+OK)");
+	  var str = window.prompt("Paste:\n<C-V><CR>");
     log(1, "Clipboard get: " + str);
     var ptr = allocate(intArrayFromString(str), 'i8', ALLOC_NORMAL)
     return ptr;
