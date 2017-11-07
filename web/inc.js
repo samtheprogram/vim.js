@@ -386,6 +386,92 @@ function log(num, str){
   (dbg >= num) && console.log(str);
 }
 
+
+
+function tin_load(path){
+	console.log("load: " + path);
+	var dir = path.split("/");
+	dir.pop();
+	var dir = dir.join("/");
+	var file = path.split("/").slice(-1)[0];
+
+	// vimdoc from github
+	if (dir == "/vim/txt/vimdoc"){
+		if (!file.endsWith(".txt")){
+			file += ".txt";
+		}
+		var url = "https://raw.githubusercontent.com/vim/vim/master/runtime/doc"
+	 	url += "/" + file
+		tin_url(path, url);
+	}
+	// rest here
+	else{
+		tin_local(dir, file);
+	}
+}
+
+
+function tin_local(path, file){
+	path = path.substr(1);
+	console.log("local: " + path + ", " + file );
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET", path + "/" + file, false);
+    xhttp.overrideMimeType('text/plain; charset=x-user-defined');
+	xhttp.send();
+	var res = xhttp.responseText;
+	Module["FS_createDataFile"]( path, file, res, true, true);
+}
+
+function tin_url(path, url){
+	// path (_out_): /vim/txt/vimdoc/help.txt"
+	// url  (_in_) : https://raw.githubusercontent.com/vim/vim/master/runtime/doc/help.txt
+	// Request
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET", url, false);
+	xhttp.send();
+	var res = xhttp.responseText;
+	// Path
+	var dir = path.split("/");
+	dir.pop();
+	var dir = dir.join("/");
+	// File
+	var file = path.split("/").slice(-1)[0];
+	// Save
+	console.log("load_file: " + dir + ", " + file + " from " + url);
+	Module["FS_createDataFile"](dir, file, res, true, true);
+}
+
+
+function tin_href(link){
+	// link: to be opened
+    window.open(link, '<-vim.js');
+}
+
+function tin_download(file, content){
+    var str = content;
+    var str = str.replace(/<tincr>/g, "\n");
+    var str = str.replace(/<tinq1>/g, "'");
+    var str = str.replace(/<tinbs>/g, "\\");
+    var str = encodeURIComponent(str);
+    var str = "data:text/plain," + str;
+    dl.href = str;
+    dl.click();
+}
+
+function tin_full_screen(){
+    var wdemo = window.innerWidth - 6;
+    var hdemo = window.innerHeight - 6;
+    var wold = document.getElementById("vimjs-container").clientWidth;
+    var hold = document.getElementById("vimjs-container").clientHeight;
+    console.log("tinp: set div size: " + wdemo + ", " + hdemo + " from " + wold + ", " + hold);
+    document.getElementById("vimjs-canvas").width = wdemo +  "px";
+    document.getElementById("vimjs-canvas").height = hdemo +  "px";
+    document.getElementById("vimjs-container").style.width = wdemo +  "px";
+    document.getElementById("vimjs-container").style.height = hdemo +  "px";
+}
+
+
+
 function test(){
   var spec = [];
   tin_dom_event.forEach(function(p) {

@@ -79,10 +79,6 @@ body {
 
 <!-- AutoLoad example.js -->
 <script>
-  try {
-    var ele = document.getElementById('last-updated-time');
-    ele.innerHTML = (new Date(ele.innerHTML)).toLocaleString();
-  } catch(e) { }
   var Module = {
     noInitialRun: false,
     noExitRuntime: true,
