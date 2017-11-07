@@ -1,5 +1,26 @@
 ### Vim.js : JavaScript port of Vim
 
+by Tinmarino 
+
+### See demo there
+
+
+### Compile
+The EXPORTED_FUNCTIONS must be setted in emscripten/src/setting.js
+
+var EXPORTED_FUNCTIONS = [ '_main',
+'_input_available',
+'_gui_web_handle_key',
+'_gui_send_mouse_event',
+'_gui_mouse_moved',
+];
+
+
+
+
+# Old readme by Lu Wang
+
+
 A Tool/Toy for Non-Beginners
 
 by Lu Wang
