@@ -3,7 +3,7 @@
 by Tinmarino 
 
 ### See demo there
-
+https://tinmarino.github.io/vim.js/web/vim.html
 
 ### Compile
 The EXPORTED_FUNCTIONS must be setted in emscripten/src/setting.js
