@@ -29,6 +29,9 @@ TABLE OF CONTENT                                                            **
 /vim/txt/cheatdoc/c-meta.txt ~
     -> Cheatsheet collection
 
+/vim/ansiesc-page.a.txt ~
+    -> Colored image page (AnsiEsc test) 
+
 
 ==============================================================================
 LINKS                                                                       **    

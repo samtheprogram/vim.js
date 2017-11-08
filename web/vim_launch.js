@@ -15,7 +15,6 @@ function tin_init(){
 
     // Load pages
     tin_load("/vim/first-page.txt");
-    tin_load("/vim/goat1.txt");
 
     // Vimrc
     tin_load("/vim/vimrc");
@@ -43,7 +42,7 @@ function tin_init(){
 var Module = {
   noInitialRun: false,
   noExitRuntime: true,
-  arguments: ['vim/goat1.txt'],
+  arguments: ['vim/first-page.txt'],
   preRun: [ function() { vimjs.pre_run(); } ],
   postRun: [],
   print: function() {
