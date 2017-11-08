@@ -51,7 +51,7 @@ var LibraryVIM = {
 
     // Var
     KeyEvent: null,
-    // workaround for ^W on non-firefox
+    // workaround for C-W on non-firefox
     ctrl_pressed: false,
 
 
@@ -470,6 +470,7 @@ var LibraryVIM = {
   },
 
   vimjs_get_window_width: function() {
+    log (1, "get_window_width: " + vimjs.window_width);
     return vimjs.window_width;
   },
 
@@ -478,6 +479,7 @@ var LibraryVIM = {
   },
 
   vimjs_resize: function(width, height) {
+    log(1, "resize: " + width + ", " + height);
     var container_node = vimjs.container_node;
     container_node.style.width = width / vimjs.devicePixelRatio + container_node.offsetWidth - container_node.clientWidth + 'px';
     container_node.style.height = height / vimjs.devicePixelRatio + container_node.offsetHeight - container_node.clientHeight + 'px';
@@ -768,6 +770,18 @@ vimjs_browse: function(buf, buf_size, saving, default_name, init_dir) {
   vimjs_haskey: function(name) {
     name = Pointer_stringify(name, 2);
     return (name in vimjs.special_keys_namemap);
+  },
+
+  get_random_char(){
+    var letters = "abcdefghijklmnopqrstuvwxyz";
+    random = Math.floor(Math.random() * letters.length);
+    return letters.charAt(random);
+  },
+
+  mktemp: function(path){
+    var str = path;
+    str.replace(/X/g, get_random_char());
+    return str;
   },
 
   vimjs_dummy__: null,
