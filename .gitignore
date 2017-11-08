@@ -4,6 +4,10 @@ src/objects/
 src/auto/
 src/po/
 src/vim
+src/a.out
+src/a.out.js
+src/a.out.js.mem
+
 web/vim.bc
 Old/
 
