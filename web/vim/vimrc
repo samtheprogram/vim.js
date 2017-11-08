@@ -89,8 +89,6 @@ function! LoadPlugin(name)
     
 
     " Download Raw files
-    " https://api.github.com/repos/powerman/vim-plugin-AnsiEsc/tarball/master
-    " https://raw.githubusercontent.com/powerman/vim-plugin-AnsiEsc/master/plugin/cecutil.vim
     let l:d_list = g:d_plugin[a:name]
     let l:url = l:d_list[0]
     call remove(l:d_list, 0)
@@ -131,6 +129,11 @@ au VimEnter * map gf gEWvE"fy:call ReadWrapper(@f)<CR>
 au VimEnter * map gx gEWvE"fy:call OpenXref(@f)<CR>
 au VimEnter * map gs :call DownloadFile()<CR>
 command! -nargs=1 -complete=customlist,CompletePlugin Plug call LoadPlugin(<q-args>)
+
+" AnsiEscape autocommands
+au BufEnter *.a.txt echom "Loading ansiesc" | call LoadPlugin("ansiesc")| set nowrap | echom "I saw an ansi file"
+au BufWinEnter *.a.txt AnsiEsc
+au ColorScheme * AnsiEsc!
 
 
 " Use monospace fonts only!
