@@ -128,10 +128,8 @@ var LibraryVIM = {
           vimjs.trigger_dialog_node.parentNode.removeChild(vimjs.trigger_dialog_node);
           setTimeout(cb, 1);
         };
-
-        // vimjs.container_node.appendChild(vimjs.trigger_dialog_node);
-
-      } else {
+      }
+      else {
         cb();
       }
     },

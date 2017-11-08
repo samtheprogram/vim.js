@@ -36,10 +36,6 @@ function tin_init(){
     tin_load("/vim/txt/tindoc/meta-help.txt");
     Module["FS_createPath"]("/vim/txt/cheatdoc", "doc", true, true);
     tin_load("/vim/txt/cheatdoc/doc/c-meta.txt");
-
-    // Resize
-    tin_full_screen();
-
 }
 
 

@@ -12,19 +12,21 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #f5f0eb;
 }
 
 #vimjs-container { 
-  border:5px solid; 
-  padding:0;
-  overflow:hidden;
-  line-height:1;
+  /* Geo */
+  position: absolute;
+  width: 95%;
+  height: 95%;
+  border: 5px solid;
+  margin: 2%;
   font: 20px monospace;
+
   /* from bootstrap */
   border-color: rgb(102, 175, 233);
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(102, 175, 233, 0.6);
-  position:relative;
+
   /* from Darkside */
   background-color:black;
   color:#bababa;
@@ -56,9 +58,7 @@ body {
 
 <!-- Container -->
 <!-- <code>:e $VIM/vimrc</code> -->
-<div id="vimjs-container" 
-  class="container"
->
+<div id="vimjs-container">
   <canvas id="vimjs-canvas"></canvas>
 </div>
 
