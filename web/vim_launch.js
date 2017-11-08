@@ -34,7 +34,8 @@ function tin_init(){
     // Index doc
     tin_url("/vim/txt/vimdoc/help.txt", "https://raw.githubusercontent.com/vim/vim/master/runtime/doc/help.txt");
     tin_load("/vim/txt/tindoc/meta-help.txt");
-    tin_load("/vim/txt/cheatdoc/c-meta.txt");
+    Module["FS_createPath"]("/vim/txt/cheatdoc", "doc", true, true);
+    tin_load("/vim/txt/cheatdoc/doc/c-meta.txt");
 
     // Resize
     tin_full_screen();
