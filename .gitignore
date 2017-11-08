@@ -2,6 +2,7 @@ src/proto/
 src/xxd/xxd
 src/objects/
 src/auto/
+src/po/
 src/vim
 web/vim.bc
 Old/
