@@ -6,3 +6,7 @@ src/po/
 src/vim
 web/vim.bc
 Old/
+
+web/vim.js
+web/vim.js.mem
+web/vimjs.dat
