@@ -1586,7 +1586,12 @@ gui_set_shellsize(mustset, fit_to_display, direction)
     }
     else
 #endif
+#ifdef FEAT_GUI_WEB
     {
+	gui_mch_get_screen_dimensions(&width, &height);
+	Columns = (width - base_width + gui.char_width - 1) / gui.char_width;
+	Rows = (height - base_height + gui.char_height - 1) / gui.char_height;
+#endif
 	width = Columns * gui.char_width + base_width;
 	height = Rows * gui.char_height + base_height;
     }
