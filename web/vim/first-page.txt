@@ -31,6 +31,7 @@ TABLE OF CONTENT                                                            **
 
 /vim/ansiesc-page.a.txt ~
     -> Colored image page (AnsiEsc test) 
+    -> Warning can be slow (1 min) <- download AnsiEsc from github
 
 
 ==============================================================================

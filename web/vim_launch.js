@@ -15,6 +15,7 @@ function tin_init(){
 
     // Load pages
     tin_load("/vim/first-page.txt");
+    tin_load("/vim/ansiesc-page.a.txt");
 
     // Vimrc
     tin_load("/vim/vimrc");
