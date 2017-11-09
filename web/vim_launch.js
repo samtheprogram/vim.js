@@ -76,8 +76,8 @@ var Module = {
   },
 };
 
+
 // Load dat
-console.log(1, "OK 1");
 var xhr = new XMLHttpRequest();
 xhr.open('GET', 'vimjs.dat', true);
 xhr.responseType = 'arraybuffer';
@@ -88,9 +88,6 @@ xhr.onload = function() {
   document.body.appendChild(script);
 };
 xhr.send();
-console.log(1, "OK 2");
-
-
 
 
 // Load init + save bugs

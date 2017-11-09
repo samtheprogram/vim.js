@@ -59,7 +59,7 @@ var LibraryVIM = {
     dropbox: null,
 
     // functions that are not exposed to C
-    handle_key: function(charCode, keyCode, e) {//VIMJS_FOLD_START
+    handle_key: function(charCode, keyCode, e) {
       // macros defined in keymap.h
       var modifiers = 0;
       // shift already affects charCode
@@ -95,8 +95,7 @@ var LibraryVIM = {
           }
         }
       }
-
-    },//VIMJS_FOLD_END
+    },
 
     get_color_string: function(color) {
       var bgr = [];
@@ -108,7 +107,7 @@ var LibraryVIM = {
     },
 
     // dirty works, called before the program starts
-    pre_run: function () {//VIMJS_FOLD_START
+    pre_run: function () {
       // setup directories & environment
       ENV['USER'] = 'tinmarino';
       ENV['HOME'] = '/'; 
@@ -219,7 +218,7 @@ var LibraryVIM = {
           multiselect: false
         });
       });
-    }, // VIMJS_FOLD_END
+    },
 
     invert_canvas: function(x, y, w, h) {
       var ctx = vimjs.canvas_ctx;
@@ -417,6 +416,7 @@ var LibraryVIM = {
 
   vimjs_log: function(num, str){
     console.log("C: " + Pointer_stringify(str));
+    return true;
   },
   
   vimjs_prepare_exit: function() {
