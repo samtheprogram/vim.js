@@ -143,6 +143,11 @@ silent so $VIMRUNTIME/syntax/syntax.vim
 colorscheme Darkside
 
 
+"========== MAP ==========
+"
+inoremap jk <esc>
+inoremap kj <esc>
+
 
 "========== OTHERS ==========
 " Some are actually not yet supported
