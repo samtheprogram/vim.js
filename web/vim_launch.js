@@ -2,6 +2,16 @@ document.write('<script type="text/javascript" src="inc.js" ></script>')
 
 // Prepare ground
 function tin_init(){
+	// Set size for android soft keyboard
+    if (tin_device() == "PHONE"){
+		log(1, "I am on phone");
+		var div = document.getElementById('vimjs-container');
+		div.style.bottom = "40%";
+	}
+	else{
+		log(1, "I am on PC");
+	}
+
     // Create path
     Module["FS_createPath"]("/", "vim", true, true);
     Module["FS_createPath"]("/vim", "plugin", true, true);
