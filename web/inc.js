@@ -1,3 +1,4 @@
+var dbg = 6;
 
 
 var tin_key_event = {
@@ -377,12 +378,34 @@ function tin_get_xy(canvas, event){
   return [x, y];
 }
 
-// TODO good canvas size
-function tin_get_canvas_size(){
+// From https://deviceatlas.com/blog/list-of-user-agent-strings
+function tin_device(){
+	var ua = navigator.userAgent.toLowerCase();
+	if (ua.match(/android/i)){
+		return "PHONE";
+	} else if (ua.match(/iphone/i)){
+		return "PHONE";
+	} else if (ua.match(/linux/i)){
+		return "PC";
+	} else if (ua.match(/macintosh/i)){
+		return "PC";
+	} else if (ua.match(/windows nt/i)){
+		return "PC";
+	} else if (ua.match(/cros /i)){
+		return "PC";
+	} else {
+		return false;
+	}
 }
 
+function tin_log_member(obj){
+	console.log("Object: ");
+	for(var propName in obj) {
+		propValue = obj[propName]
+		console.log(propName, propValue);
+	}
+}
 
-var dbg = 6;
 function log(num, str){
   (dbg >= num) && console.log(str);
 }
