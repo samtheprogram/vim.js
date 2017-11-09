@@ -23,6 +23,14 @@ function tin_init(){
     Module["FS_createPath"]("/vim/txt", "cheatdoc", true, true);
     Module["FS_createPath"]("/vim/txt", "mess", true, true);
 
+	// Plugin (TODO remove)
+    Module["FS_createPath"]("/vim/plugin", "airline", true, true);
+    Module["FS_createPath"]("/vim/plugin/airline", "autoload", true, true);
+    Module["FS_createPath"]("/vim/plugin/airline/autoload", "airline", true, true);
+    Module["FS_createPath"]("/vim/plugin/airline/autoload/airline", "extensions", true, true);
+    Module["FS_createPath"]("/vim/plugin/airline/autoload/airline", "themes", true, true);
+	
+
     // Load pages
     tin_load("/vim/first-page.txt");
     tin_load("/vim/ansiesc-page.a.txt");
