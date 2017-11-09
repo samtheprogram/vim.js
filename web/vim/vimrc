@@ -123,11 +123,6 @@ function! CompletePlugin(ArgLead, CmdLine, CursorPos)
 endfunction
 
 
-" Vim
-" As autocmd otherwise CR is interpreted ... 
-au VimEnter * map gf gEWvE"fy:call ReadWrapper(@f)<CR>
-au VimEnter * map gx gEWvE"fy:call OpenXref(@f)<CR>
-au VimEnter * map gs :call DownloadFile()<CR>
 command! -nargs=1 -complete=customlist,CompletePlugin Plug call LoadPlugin(<q-args>)
 
 " AnsiEscape autocommands
@@ -144,9 +139,12 @@ colorscheme Darkside
 
 
 "========== MAP ==========
-"
-inoremap jk <esc>
-inoremap kj <esc>
+" As autocmd otherwise CR is interpreted ... 
+au VimEnter * map gf gEWvE"fy:call ReadWrapper(@f)<CR>
+au VimEnter * map gx gEWvE"fy:call OpenXref(@f)<CR>
+au VimEnter * map gs :call DownloadFile()<CR>
+au VimEnter * inoremap jk <esc>
+au VimEnter * inoremap kj <esc>
 
 
 "========== OTHERS ==========
