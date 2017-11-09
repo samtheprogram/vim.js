@@ -54,11 +54,30 @@ endfunction
 let g:d_plugin = {}
 "AnsiEscape
 let g:d_plugin["ansiesc"] = ["https://github.com/powerman/vim-plugin-AnsiEsc"]
-call add(g:d_plugin["ansiesc"], "autoload/AnsiEsc.vim")
 call add(g:d_plugin["ansiesc"], "plugin/AnsiEscPlugin.vim")
+call add(g:d_plugin["ansiesc"], "autoload/AnsiEsc.vim")
 call add(g:d_plugin["ansiesc"], "plugin/cecutil.vim")
 
-let g:d_plugin["airline"] = "https://github.com/vim-airline/vim-airline"
+let g:d_plugin["airline"] = ["https://github.com/vim-airline/vim-airline"]
+call add(g:d_plugin["airline"], "plugin/airline.vim")
+call add(g:d_plugin["airline"], "autoload/airline.vim")
+
+call add(g:d_plugin["airline"], "autoload/airline/section.vim")
+call add(g:d_plugin["airline"], "autoload/airline/async.vim")
+call add(g:d_plugin["airline"], "autoload/airline/util.vim")
+call add(g:d_plugin["airline"], "autoload/airline/parts.vim")
+call add(g:d_plugin["airline"], "autoload/airline/themes.vim")
+call add(g:d_plugin["airline"], "autoload/airline/themes")
+call add(g:d_plugin["airline"], "autoload/airline/highlighter.vim")
+call add(g:d_plugin["airline"], "autoload/airline/msdos.vim")
+call add(g:d_plugin["airline"], "autoload/airline/debug.vim")
+call add(g:d_plugin["airline"], "autoload/airline/extensions.vim")
+call add(g:d_plugin["airline"], "autoload/airline/builder.vim")
+call add(g:d_plugin["airline"], "autoload/airline/init.vim")
+
+call add(g:d_plugin["airline"], "autoload/airline/themes/dark.vim")
+call add(g:d_plugin["airline"], "autoload/airline/extensions/default.vim")
+
 let g:d_plugin["ctrlp"] = "https://github.com/kien/ctrlp.vim"
 let g:d_plugin["surround"] = "https://github.com/tpope/vim-surround"
 let g:d_plugin["nerdtree"] = "https://github.com/scrooloose/nerdtree"
@@ -92,7 +111,16 @@ function! LoadPlugin(name)
     let l:d_list = g:d_plugin[a:name]
     let l:url = l:d_list[0]
     call remove(l:d_list, 0)
+    let l:sub_path1 = ""
+    let l:sub_path2 = ""
+
     for l:sub_path in l:d_list
+      if (l:sub_path1 == "")
+        let l:sub_path1 = l:sub_path
+      endif
+      if (l:sub_path2 == "")
+        let l:sub_path2 = l:sub_path
+      endif
       let l:cmd2 = '!tin_url("'
       let l:cmd2 .= l:out_path . l:sub_path
       let l:cmd2 .= '", "'
@@ -102,9 +130,14 @@ function! LoadPlugin(name)
       let l:cmd2 .= '");'
       echom "Cmd2: " . l:cmd2
       silent execute l:cmd2
-      " Source here 
-      execute "source " . l:out_path . "/" . l:sub_path
+      if (match(l:sub_path, "autoload/airline/") != -1)
+        echo "Sourcing autoload: " . l:sub_path
+        execute "source " . l:out_path . l:sub_path
+      endif
     endfor
+
+    echo "Sourcing plugin: " . l:sub_path
+    execute "source " . l:out_path . l:sub_path1
 
     " Runtime path
     let &runtimepath.=",/vim/plugin/" . a:name
