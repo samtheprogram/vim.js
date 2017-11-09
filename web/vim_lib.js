@@ -79,7 +79,6 @@ var LibraryVIM = {
 
       if(!handled){
       if(keyCode in  Object.keys(tin_dom_event))  {
-          log(5, "Key " + keyCode + "is intercepted");
           vimjs.gui_web_handle_key(charCode || keyCode, modifiers, 0, 0);
       }
         else {
@@ -280,7 +279,6 @@ var LibraryVIM = {
     vimjs.devicePixelRatio = window.devicePixelRatio || 1;
     vimjs.window_width = container_node.clientWidth * vimjs.devicePixelRatio;
     vimjs.window_height = container_node.clientHeight * vimjs.devicePixelRatio;
-    log(1, "init size: " + vimjs.window_width + ", " + vimjs.window_height);
 
     _vimjs_init_font('');
 
@@ -314,8 +312,6 @@ var LibraryVIM = {
         var x = xy[0];
         var y = xy[1];
         var button = event.button;
-        var str = "Mouse Down: " + x + ", " + y + " pressed : " + button;
-        log(2, str);
         vimjs.gui_send_mouse_event(button, x, y, false, 0);
     }
     document.addEventListener("mousedown", vimjs_mouse_down_event);
@@ -333,8 +329,6 @@ var LibraryVIM = {
         else{
           button = 0x100;
         }
-        var str = "Mouse Wheel: " +  dir + ", " + button;
-        log(2, str);
         vimjs.gui_send_mouse_event(button, x, y, false, 0);
     }
     document.addEventListener("wheel", vimjs_mouse_wheel_event, false);
@@ -344,7 +338,6 @@ var LibraryVIM = {
         var xy = tin_get_xy(vimjs.canvas_node, event);
         var x = xy[0];
         var y = xy[1];
-        log(2, "Mouse Up: " + x + ", " + y);
         vimjs.gui_send_mouse_event(3, x, y, false, 0);
     }
     document.addEventListener("mouseup", vimjs_mouse_release_event);
@@ -354,7 +347,6 @@ var LibraryVIM = {
         var xy = tin_get_xy(vimjs.canvas_node, event);
         var x = xy[0];
         var y = xy[1];
-        log(9, "Mouse Move: " + y + ", " + y);
         // TODO if i did not click ? 
         // vimjs.gui_mouse_moved(x, y);
         vimjs.gui_send_mouse_event(0x43, x, y, false, 0);
@@ -380,10 +372,8 @@ var LibraryVIM = {
 
     /* capture some special keys that won't trigger 'keypress' */
     document.addEventListener('keydown', function(e) {
-      log(3, "Key Down: " + e.keyCode + "," + e);
       if (ignoreKeys()) return true;
       if(e.keyCode in tin_keys_to_intercept_upon_keydown)  {
-        log(3, "Key Down: is handled");
         e.preventDefault();
         vimjs.handle_key(0, e.keyCode, e);
       }
@@ -415,13 +405,11 @@ var LibraryVIM = {
     byteArray.push(0);
     var s = UTF8ArrayToString(byteArray, 0);
     var len = s.length;
-    log(1, "Clipboard set: " + s);
     window.prompt("Copy:\n<C-C><CR>", s);
   },
 
   vimjs_clip_get: function(){
 	  var str = window.prompt("Paste:\n<C-V><CR>");
-    log(1, "Clipboard get: " + str);
     var ptr = allocate(intArrayFromString(str), 'i8', ALLOC_NORMAL)
     return ptr;
     _free(ptr);
@@ -468,7 +456,6 @@ var LibraryVIM = {
   },
 
   vimjs_get_window_width: function() {
-    log (1, "get_window_width: " + vimjs.window_width);
     return vimjs.window_width;
   },
 
@@ -477,7 +464,6 @@ var LibraryVIM = {
   },
 
   vimjs_resize: function(width, height) {
-    log(1, "resize: " + width + ", " + height);
     var container_node = vimjs.container_node;
     container_node.style.width = width / vimjs.devicePixelRatio + container_node.offsetWidth - container_node.clientWidth + 'px';
     container_node.style.height = height / vimjs.devicePixelRatio + container_node.offsetHeight - container_node.clientHeight + 'px';
@@ -497,7 +483,6 @@ var LibraryVIM = {
     byteArray.push(0);
     var s = UTF8ArrayToString(byteArray, 0);
     var len = s.length;
-    log(9, "Draw: " + len + ": " + s);
 
     // TODO: use macros for flag constants
   if(!(flags & 0x01)) {
