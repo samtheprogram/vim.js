@@ -371,8 +371,9 @@ function tin_pcharu_get(pcharu){
 // TODO get mouse ccord good (zoom + dorber size)
 function tin_get_xy(canvas, event){
   // 5 is the border size (in px)
-  var x = event.clientX - 10;
-  var y = event.clientY - 10;
+  var rect = canvas.getBoundingClientRect();
+  var x = event.clientX - rect.left;
+  var y = event.clientY - rect.top;
   return [x, y];
 }
 
