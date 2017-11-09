@@ -10,7 +10,7 @@
 ==============================================================================
 
 
-This is an online version of Vim the text editor. v0.0.3
+This is an online version of Vim the text editor. v0.0.4
 
 |gf|                goto file.
 |gx|                goto xref.
