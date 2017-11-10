@@ -7,6 +7,7 @@ function tin_init(){
 		log(1, "I am on phone");
 		var div = document.getElementById('vimjs-container');
 		div.style.bottom = "40%";
+		div.style.height = "56%";
 	}
 	else{
 		log(1, "I am on PC");
