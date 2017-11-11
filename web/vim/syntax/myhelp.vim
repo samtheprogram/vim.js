@@ -88,6 +88,7 @@ endif
 
 
 
+let b:current_syntax = ""
 unlet b:current_syntax
 runtime! syntax/help.vim
 

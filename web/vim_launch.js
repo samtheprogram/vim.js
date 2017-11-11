@@ -53,7 +53,6 @@ function tin_init(){
     tin_load("/vim/syntax/synload.vim");
     tin_load("/vim/syntax/myhelp.vim");
     tin_load("/vim/syntax/help.vim");
-    tin_load("/vim/syntax/vim.vim");
 }
 
 
