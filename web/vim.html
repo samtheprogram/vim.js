@@ -65,12 +65,17 @@ body {
 <!-- Container -->
 <!-- <code>:e $VIM/vimrc</code> -->
 <div id="vimjs-container">
-  <canvas id="vimjs-canvas"></canvas>
+  <canvas id="vimjs-canvas"
+    ondragenter="event.stopPropagation(); event.preventDefault();";
+    ondragover="tin_dragover(event);";
+    ondrop="tin_drop(event);";
+></canvas>
 </div>
 
 
 <!-- Download button -->
-<a id=dl download="file.txt"></a>
+<a id=dl download="file.txt" class="vimjs-invisible"></a>
+<input id=up type="file" name="datafile" size="40" class="vimjs-invisible">
 
 
 
