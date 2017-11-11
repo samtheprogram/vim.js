@@ -14,6 +14,7 @@ function tin_init(){
 	}
 
     // Create path
+    Module["FS_createPath"]("/", "local", true, true);
     Module["FS_createPath"]("/", "vim", true, true);
     Module["FS_createPath"]("/vim", "plugin", true, true);
     Module["FS_createPath"]("/vim", "syntax", true, true);
@@ -31,6 +32,9 @@ function tin_init(){
     Module["FS_createPath"]("/vim/plugin/airline/autoload", "airline", true, true);
     Module["FS_createPath"]("/vim/plugin/airline/autoload/airline", "extensions", true, true);
     Module["FS_createPath"]("/vim/plugin/airline/autoload/airline", "themes", true, true);
+    Module["FS_createPath"]("/vim/plugin", "ctrlp", true, true);
+    Module["FS_createPath"]("/vim/plugin/ctrlp", "autoload", true, true);
+    Module["FS_createPath"]("/vim/plugin/ctrlp/autoload", "ctrlp", true, true);
 	
 
     // Load pages
