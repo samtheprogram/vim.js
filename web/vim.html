@@ -17,11 +17,11 @@ body {
 #vimjs-container { 
   /* Geo */
   position: absolute;
-  width: 95%;
-  height: 95%;
+  width: 96%;
+  height: 96%;
   border: 0px solid;
-  margin: 1%;
-  font: 20px monospace;
+  margin: 2%;
+  font: 40px monospace;
 
   /* from bootstrap */
   border-color: rgb(102, 175, 233);
@@ -48,6 +48,10 @@ body {
   left:-9999px;
 }
 
+#vimjs-font-test {
+  font: 40px monospace;
+}
+
 </style>
 </head>
 
@@ -70,7 +74,7 @@ body {
 
 <!-- Workaround -->
 <audio id="vimjs-beep" src="drip.ogg" class="vimjs-invisible"></audio>
-<input id="vimjs-file" class="vimjs-invisible" type="file">
+<input id="vimjs-file" class="vimjs-invisible" type="file"></input>
 <div id="vimjs-font-test" class="vimjs-invisible"></div>
 <div id="vimjs-trigger-dialog" class="vimjs-invisible">
         <button id="vimjs-trigger-button" type="button" class="vimjs-invisible">Click Me</button>
