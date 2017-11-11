@@ -482,6 +482,11 @@ function tin_download(file, content){
     dl.click();
 }
 
+
+function tin_upload(){
+    up.click();
+}
+
 function tin_full_screen(){
     var wdemo = window.innerWidth - 6;
     var hdemo = window.innerHeight - 6;
@@ -495,6 +500,137 @@ function tin_full_screen(){
 }
 
 
+// onloadstart, onprogress, onload, onabort, onerror, and onloadend 
+// https://www.html5rocks.com/en/tutorials/file/dndfiles/
+function tin_check_file_api(){
+// Check for the various File API support.
+    if (window.File && window.FileReader && window.FileList) {
+      // Great success! All the File APIs are supported.
+    } else {
+      alert('The File APIs are not fully supported in this browser.');
+    }
+    
+    window.webkitStorageInfo.requestQuota(PERSISTENT, 1024*1024, function(grantedBytes) {
+        window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
+    }, function(e) {
+        console.log('Error', e);
+    });
+}
+
+function errorHandler(e) {
+  var msg = '';
+
+  switch (e.code) {
+    case FileError.QUOTA_EXCEEDED_ERR:
+      msg = 'QUOTA_EXCEEDED_ERR';
+      break;
+    case FileError.NOT_FOUND_ERR:
+      msg = 'NOT_FOUND_ERR';
+      break;
+    case FileError.SECURITY_ERR:
+      msg = 'SECURITY_ERR';
+      break;
+    case FileError.INVALID_MODIFICATION_ERR:
+      msg = 'INVALID_MODIFICATION_ERR';
+      break;
+    case FileError.INVALID_STATE_ERR:
+      msg = 'INVALID_STATE_ERR';
+      break;
+    default:
+      msg = 'Unknown Error';
+      break;
+  };
+
+  console.log('Error: ' + msg);
+}
+
+function tin_onfs(fs){
+    log(1, "FS created wigh success:" + fn.name);
+}
+function tin_get_fs(){
+    // Note: The file system has been prefixed as of Google Chrome 12:
+    window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+
+    // type, size, successCallback, opt_errorCallback)
+    window.requestFileSystem(
+        window.PERSISTENT,
+        5 * 1024 * 1024,
+        tin_onfs,
+        errorHandler
+    );
+}
+
+function tin_dragover(ev){
+    ev.stopPropagation();
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = 'copy'
+}
+
+function tin_drop(ev){
+    log(1, "File has been droppend");
+    var fs = tin_get_fs();
+    ev.stopPropagation(); ev.preventDefault();
+
+    var dt = ev.dataTransfer;
+    var file = dt.files[0];
+    var name = file.name;
+    var reader = new FileReader();
+
+    reader.onload = (function(theFile) {
+      return function(e) {
+        // Render thumbnail.
+        log(1, "content: " +  e.target.result);
+      };
+    })(file);
+
+    reader.readAsText(file);
+
+    log(1, "name: " + name  + "miz" + file.mozFullPath);
+    log(1, "relative " + file.webkitRelativePath);
+    return false;
+}
+
+function tin_read(file){
+    var fs = tin_get_fs();
+
+    fs.root.getFile(filen, {}, function(fileEntry) {
+      // Get a File object representing the file,
+      // then use FileReader to read its contents.
+      fileEntry.file(function(file) {
+         var reader = new FileReader();
+  
+         reader.onloadend = function(e) {
+             return this.result;
+         };
+  
+         reader.readAsText(file);
+      }, errorHandler);
+  
+    }, errorHandler);
+}
+
+function tin_write(file, content){
+    var fs = tin_get_fs();
+
+    fs.root.getFile(file, {create: true}, function(fileEntry) {
+      fileEntry.createWriter(function(fileWriter) {
+
+        fileWriter.onwriteend = function(e) {
+          console.log('Write completed.');
+        };
+  
+        fileWriter.onerror = function(e) {
+          console.log('Write failed: ' + e.toString());
+        };
+  
+        var blob = new Blob([content], {type: 'text/plain'});
+  
+        fileWriter.write(blob);
+  
+      }, errorHandler);
+  
+    }, errorHandler);
+}
 
 function test(){
   var spec = [];
