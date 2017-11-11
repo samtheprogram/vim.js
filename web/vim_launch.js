@@ -19,6 +19,7 @@ function tin_init(){
     Module["FS_createPath"]("/vim", "syntax", true, true);
     Module["FS_createPath"]("/vim", "colors", true, true);
     Module["FS_createPath"]("/vim", "txt", true, true);
+    Module["FS_createPath"]("/vim", "script", true, true);
     Module["FS_createPath"]("/vim/txt", "vimdoc", true, true);
     Module["FS_createPath"]("/vim/txt", "tindoc", true, true);
     Module["FS_createPath"]("/vim/txt", "cheatdoc", true, true);
@@ -38,6 +39,9 @@ function tin_init(){
 
     // Vimrc
     tin_load("/vim/vimrc");
+    tin_load("/vim/script/color.vim");
+    tin_load("/vim/script/net.vim");
+    tin_load("/vim/script/plugin.vim");
 
     // Syntax
     tin_load("/vim/colors/Darkside.vim");

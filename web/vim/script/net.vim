@@ -46,3 +46,13 @@ function! DownloadFile()
     silent execute l:cmd
 endfunction
 
+function! Url(path, url)
+  " Full path full url
+  let l:cmd = '!tin_url("'
+  let l:cmd .= a:path
+  let l:cmd .= '", "'
+  let l:cmd .= a:url
+  let l:cmd .= '");'
+  echom "Url cmd: " . l:cmd
+  execute l:cmd
+endfunction

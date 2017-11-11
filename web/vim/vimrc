@@ -2,8 +2,11 @@
 
 silent exec '!console.log("tinp: vimrc 4")'
 
-so script/net.vim
-so script/plugin.vim
+set nocp
+
+ru script/net.vim
+ru script/color.vim
+ru script/plugin.vim
 
 
 
