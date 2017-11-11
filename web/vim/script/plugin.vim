@@ -132,4 +132,4 @@ command! -nargs=1 -complete=customlist,CompletePlugin Plug call LoadPlugin(<q-ar
 " AnsiEscape autocommands
 au BufEnter *.a.txt echom "Loading ansiesc" | call LoadPlugin("ansiesc")| set nowrap | echom "I saw an ansi file"
 au BufWinEnter *.a.txt AnsiEsc
-au ColorScheme * AnsiEsc!
+au ColorScheme *.a.txt AnsiEsc!
