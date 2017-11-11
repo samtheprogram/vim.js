@@ -4,7 +4,7 @@ function! ReadDoc(file)
 
   	" Get current path/file
 	if (a:file[0] == "/")
-	  let l:path = "".join(split(a:file, "/")[:-2], "/")
+	  let l:path = "/" . "".join(split(a:file, "/")[:-2], "/")
 	  let l:file = split(a:file, "/")[-1] 
 	else
 	  let l:path = expand("%:p:h")
@@ -15,15 +15,15 @@ function! ReadDoc(file)
 	let l:cmd =  '!tin_load("' .l:path."/".l:file . '")' 
 
 	" Edit file 
-	let l:file_path = "/" . l:path . "/" . l:file
+	let l:file_path = l:path . "/" . l:file
     execute  l:cmd
 	execute "edit"  l:file_path
 
 	" Debug regs
-	let @a=l:cmd
-	let @b=l:file_path
-	let @c=l:path
-	let @d=a:file
+	let g:da=l:cmd
+	let g:db=l:file_path
+	let g:dc=l:path
+	let g:dd=a:file
 endfunction
 
 function! ReadWrapper(word)

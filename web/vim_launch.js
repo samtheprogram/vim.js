@@ -37,9 +37,8 @@ function tin_init(){
     Module["FS_createPath"]("/vim/plugin/ctrlp/autoload", "ctrlp", true, true);
 	
 
-    // Load pages
+    // Load first page
     tin_load("/vim/first-page.txt");
-    tin_load("/vim/ansiesc-page.a.txt");
 
     // Vimrc
     tin_load("/vim/vimrc");
@@ -57,12 +56,6 @@ function tin_init(){
     tin_load("/vim/syntax/vim.vim");
     tin_load("/vim/syntax/sh.vim");
     tin_load("/vim/syntax/python.vim");
-
-    // Index doc
-    tin_url("/vim/txt/vimdoc/help.txt", "https://raw.githubusercontent.com/vim/vim/master/runtime/doc/help.txt");
-    tin_load("/vim/txt/tindoc/meta-help.txt");
-    Module["FS_createPath"]("/vim/txt/cheatdoc", "doc", true, true);
-    tin_load("/vim/txt/cheatdoc/doc/c-meta.txt");
 }
 
 

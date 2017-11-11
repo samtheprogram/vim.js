@@ -419,15 +419,30 @@ function tin_load(path){
 	var dir = dir.join("/");
 	var file = path.split("/").slice(-1)[0];
 
-	// vimdoc from github
+	// vimdoc <- Vim@github
 	if (dir == "/vim/txt/vimdoc"){
 		if (!file.endsWith(".txt")){
 			file += ".txt";
 		}
 		var url = "https://raw.githubusercontent.com/vim/vim/master/runtime/doc"
-	 	url += "/" + file
+		url += "/" + file
 		tin_url(path, url);
 	}
+
+    // tindoc <- tinmarino@github
+	if (dir == "/vim/txt/tindoc"){
+		var url = "https://raw.githubusercontent.com/tinmarino/Vimdoc/master"
+		url += "/" + file
+		tin_url(path, url);
+    }
+
+    // cheatdoc <- tinmarino@github
+	if (dir == "/vim/txt/cheatdoc"){
+		var url = "https://raw.githubusercontent.com/tinmarino/Vimcheat/master"
+		url += "/" + file
+		tin_url(path, url);
+    }
+
 	// rest here
 	else{
 		tin_local(dir, file);
