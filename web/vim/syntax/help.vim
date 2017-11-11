@@ -136,7 +136,7 @@ syn match helpURL `\v<(((https?|ftp|gopher)://|(mailto|file|news):)[^' 	<>"]+|(w
 " Additionally load a language-specific syntax file "help_ab.vim".
 let s:i = match(expand("%"), '\.\a\ax$')
 if s:i > 0
-  exe "runtime syntax/help_" . strpart(expand("%"), s:i + 1, 2) . ".vim"
+  silent exe "runtime syntax/help_" . strpart(expand("%"), s:i + 1, 2) . ".vim"
 endif
 
 " Italian
