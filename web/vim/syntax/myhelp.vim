@@ -43,6 +43,7 @@ hi helpMeta ctermfg=lightgreen cterm=italic guifg=lightgreen gui=italic
 
 
 " WITH VIM SYNTAX 
+if filereadable("/vim/syntax/vim.vim")
 let b:current_syntax = ""
 unlet b:current_syntax
 syntax include @MYVIM syntax/vim.vim
@@ -52,8 +53,10 @@ if has("conceal")
 else
   syn region vimSnip 	matchgroup=Snip start=">vim"  end="<vim" contains=@MYVIM
 endif
+endif
 
 "WITH BASH SYNTAX 
+if filereadable("/vim/syntax/sh.vim")
 let b:current_syntax = ""
 unlet b:current_syntax
 syntax include @MYBASH syntax/sh.vim
@@ -63,9 +66,11 @@ if has("conceal")
 else
   syntax region bashSnip matchgroup=Snip start=">bash"  end="<bash" contains=@MYBASH 
 endif
+endif
 
 
 "WITH PYTHON SYNTAX
+if filereadable("/vim/syntax/python.vim")
 let b:current_syntax = ""
 unlet b:current_syntax
 syntax include @MYPYTHON syntax/python.vim
@@ -74,6 +79,7 @@ if has("conceal")
   syntax region pythonSnip matchgroup=Snip start=">python"  end="<python" concealends  contains=@MYPYTHON
 else
   syntax region pythonSnip matchgroup=Snip start=">python"  end="<python" contains=@MYPYTHON
+endif
 endif
 
 
