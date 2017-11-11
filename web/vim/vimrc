@@ -21,12 +21,14 @@ colorscheme Darkside
 "========== MAP ==========
 " As autocmd otherwise CR is interpreted ... 
 function! TinMap()
-  map gf gEWvE"fy:call ReadWrapper(@f)<CR>
-  map gx gEWvE"fy:call OpenXref(@f)<CR>
-  map gs :call DownloadFile()<CR>
-  inoremap jk <esc>
-  inoremap kj <esc>
-endfunction
+
+map gf gEWvE"fy:call ReadWrapper(@f)<CR>
+map gx gEWvE"fy:call OpenXref(@f)<CR>
+map gs :call DownloadFile()<CR>
+inoremap jk <esc>
+inoremap kj <esc>
+
+endfunction  " TinMap
 au VimEnter * call TinMap()
 
 
