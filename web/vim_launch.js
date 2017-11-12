@@ -97,6 +97,9 @@ var Module = {
       console.log(arguments);
     }
   },
+  'vimjs-exit': function(status) {
+    console.log('vimjs exited:',status);
+  },
 };
 
 
