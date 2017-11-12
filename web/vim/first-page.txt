@@ -10,11 +10,15 @@
 ==============================================================================
 
 
-This is an online version of Vim the text editor. v0.0.9
+This is an online version of Vim the text editor. v0.0.10
 
 |gf|                goto file.
 |gx|                goto xref.
 |gs|                download content fo current file
+|<F8>|              switch color (inc)
+|<S-F8>|            switch color (dec)
+
+|:C dante|        Change colorscheme (download from github)
 
 ==============================================================================
 TABLE OF CONTENT                                                            **

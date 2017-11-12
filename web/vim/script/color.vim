@@ -1,10 +1,6 @@
+let g:s_color = ""
 
-function 
-
-
-
-function! CompleteColor(ArgLead, CmdLine, CursorPos)
-  let l:color = ["0x7A69_dark.vim",
+let g:l_color = ["0x7A69_dark",
         \ "1989",
         \ "256-grayvim",
         \ "256-jungle",
@@ -797,8 +793,11 @@ function! CompleteColor(ArgLead, CmdLine, CursorPos)
         \ "zmrok",
         \ "znake"]
 
+
+function! CompleteColor(ArgLead, CmdLine, CursorPos)
+  " Complete :C command
   let l:res = []
-  for l:elt in l:color
+  for l:elt in g:l_color
    if (match(l:elt, a:ArgLead) == 0)
      call add(l:res, l:elt)
    endif
@@ -807,6 +806,8 @@ function! CompleteColor(ArgLead, CmdLine, CursorPos)
 endfunction
 
 function! Colorscheme(name)
+  " Change colorscheme from git
+  let g:s_color = a:name
   let l:url = "https://raw.githubusercontent.com/flazz/vim-colorschemes/master/colors/"
   let l:url .= a:name . ".vim"
   let l:path = "/vim/colors/"
@@ -814,6 +815,21 @@ function! Colorscheme(name)
   silent call Url(l:path, l:url)
   execute "colorscheme " . a:name
 endfunction
+
+function! Colorinc(num)
+  " Add a number to the color list ++ or -- (for F8)
+  let l:indexo = index(g:l_color, g:s_color)
+  let l:len = len(g:l_color)
+  let l:indexn = l:indexo + a:num
+  if l:indexn >= l:len
+	let l:indexn -= l:len
+  elseif l:indexn < 0
+	let l:indexn += l:len
+  endif
+  let l:name = g:l_color[l:indexn]
+  call Colorscheme(l:name)
+endfunction
+  
 
 command! -nargs=1 -complete=customlist,CompleteColor Colorscheme call Colorscheme(<q-args>)
 command! -nargs=1 -complete=customlist,CompleteColor C call Colorscheme(<q-args>)
