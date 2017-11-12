@@ -794,15 +794,57 @@ let g:l_color = ["0x7A69_dark",
         \ "znake"]
 
 
-function! CompleteColor(ArgLead, CmdLine, CursorPos)
-  " Complete :C command
-  let l:res = []
-  for l:elt in g:l_color
-   if (match(l:elt, a:ArgLead) == 0)
-     call add(l:res, l:elt)
-   endif
+function LexicographicalRank(string)
+  " Get rank of a string max size 4 (32 bits)
+  " Note: Compare string of the same size, ignorecase
+  let l:len = min([4, len(a:string)])
+  let l:res = 0
+
+  for i in range(l:len)
+	let l:ex = float2nr(pow(256, (l:len - i - 1)))
+	let l:cr = char2nr(tolower(a:string[i]))
+	let l:res += l:cr * l:ex
   endfor
+
   return l:res
+endfunction
+
+function DichotomicStartWith(list, prefix)
+  " Search first and last index in a list of string
+  " For strings starting with prefix with ignorecase
+  let l:first = 0
+  let l:last = len(a:list) - 1
+  let l:strlen = len(a:prefix) - 1
+  let l:rank = LexicographicalRank(a:prefix)
+
+  for i in range(6)
+	let l:cr_index = (l:first + l:last) / 2
+	let l:cr_rank = LexicographicalRank(a:list[l:cr_index][: l:strlen])
+
+	if l:cr_rank > l:rank
+	  let l:last = l:cr_index
+	elseif l:cr_rank < l:rank
+	  let l:first = l:cr_index
+	else
+	  break
+	endif
+
+  endfor
+
+  return a:list[l:first : l:last]
+endfunction
+
+function! CompleteColor(ArgLead, CmdLine, CursorPos)
+  let l:res = []
+  let l:sub = DichotomicStartWith(g:l_color, a:ArgLead)
+
+  for l:elt in l:sub
+    if (match(l:elt, '\c' . a:ArgLead) == 0)
+      call add(l:res, l:elt)
+    endif
+  endfor
+
+  return res
 endfunction
 
 function! Colorscheme(name)
@@ -829,7 +871,7 @@ function! Colorinc(num)
   let l:name = g:l_color[l:indexn]
   call Colorscheme(l:name)
 endfunction
-  
+
 
 command! -nargs=1 -complete=customlist,CompleteColor Colorscheme call Colorscheme(<q-args>)
 command! -nargs=1 -complete=customlist,CompleteColor C call Colorscheme(<q-args>)
