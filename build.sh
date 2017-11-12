@@ -21,7 +21,7 @@ do_config() {
 emconfigure ./configure \
     --enable-gui=web \
     --prefix=$VIMDIR \
-    --with-features=normal \
+    --with-features=small \
     --disable-selinux \
     --disable-xsmp \
     --disable-xsmp-interact \
@@ -88,6 +88,50 @@ popd
 #    -Oz \
 #    --js-library vim_lib.js \
 #    --embed-file usr \
+
+
+
+do_transform() {
+pushd web
+
+mv vim.js vim-1.js
+
+# vim-2._js is counted as a job
+JOB_COUNT=$((JOB_COUNT-1))
+
+echo "Transfoming..."
+node transform.js vim-1.js vim-2 $JOB_COUNT
+
+echo "Compiling with streamline.js..."
+_node -li -c vim-2._js &
+for ((i=0; i < JOB_COUNT; i++))
+do
+    _node -li -c vim-2.$i._js &
+done
+wait
+
+for ((i=0; i < JOB_COUNT; i++))
+do
+    cat vim-2.$i.js >> vim-2.js
+done
+
+popd
+}
+
+do_compress() {
+pushd web 
+
+echo "Optimizing with closure compiler"
+export EM_DIR="/home2/tourneboeuf/Software/Js/EmSdk/emscripten/1.37.22"
+#--compilation_level ADVANCED_OPTIMIZATIONS \
+java -Xmx2048m \
+     -jar $EM_DIR/third_party/closure-compiler/compiler.jar \
+     --language_in ECMASCRIPT5 \
+     --js vim-2.js\
+     --js_output_file vim.js \
+
+popd
+}
 
 
 do_copy() {
