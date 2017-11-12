@@ -5,7 +5,7 @@ export CPPFLAGS="-DFEAT_GUI_WEB"
 
 export CPP="gcc -E "
 
-export CFLAGS="-g -Wall -Wmissing-prototypes -O0 \
+export CFLAGS="-g -Wall -Wmissing-prototypes -Oz \
 	-s LINKABLE=1 s EXPORT_ALL=1 \
     -s EXPORTED_FUNCTIONS=['_main_','_input_available','_gui_web_handle_key','_gui_send_mouse_event','_gui_mouse_move'] \
 "
@@ -21,7 +21,7 @@ do_config() {
 emconfigure ./configure \
     --enable-gui=web \
     --prefix=$VIMDIR \
-    --with-features=small \
+    --with-features=normal \
     --disable-selinux \
     --disable-xsmp \
     --disable-xsmp-interact \
@@ -67,7 +67,7 @@ cp ../src/vim vim.bc
 
 emcc  \
     --js-library vim_lib.js \
-    -O2 \
+    -Oz \
     --closure 0 \
     -s EMTERPRETIFY=1 \
     -s EMTERPRETIFY_ASYNC=1 \
@@ -79,6 +79,7 @@ emcc  \
 popd
 }
 
+    #-s 'EMTERPRETIFY_FILE="vim.js.mem"' \
     #-s 'EMTERPRETIFY_FILE="vimjs.dat"' \
     #-s EXPORTED_FUNCTIONS="['_main','_input_available','_gui_web_handle_key','_gui_send_mouse_event','_gui_mouse_move']" \
 	#-s EMTERPRETIFY_FILE=\"vim_bytecode.bin\" \
@@ -90,25 +91,35 @@ popd
 #    --embed-file usr \
 
 
+export JOB_COUNT=10
 
-do_transform() {
+do_transform1() {
 pushd web
 
 mv vim.js vim-1.js
 
 # vim-2._js is counted as a job
-JOB_COUNT=$((JOB_COUNT-1))
 
 echo "Transfoming..."
 node transform.js vim-1.js vim-2 $JOB_COUNT
+popd
+}
 
-echo "Compiling with streamline.js..."
-_node -li -c vim-2._js &
+do_transform2() {
+pushd web
+
+echo "Compiling with streamline.js... $JOB_COUNT"
+_node -c vim-2._js
 for ((i=0; i < JOB_COUNT; i++))
 do
-    _node -li -c vim-2.$i._js &
+    echo "Compiling number: $i"
+    _node -c vim-2.$i._js &
 done
 wait
+popd
+}
+do_transform3() {
+pushd web
 
 for ((i=0; i < JOB_COUNT; i++))
 do
