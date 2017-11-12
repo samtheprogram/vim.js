@@ -54,6 +54,8 @@ https://www.w3schools.com/jsref         Js / Html / Css
 
 http://tldp.org/guides.html             Bash / Linux
 
+http://kripken.github.io/emscripten-site/docs/      Emscripten (C -> Js)
+
 
 ==============================================================================
 FIREFOX SHORTCUT                                                            **
