@@ -257,10 +257,10 @@
  * vim.js is built with --with-feature=small
  * but here are some features I really missed in NORMAL
  */
+// ting
 #define FEAT_CONCEAL
 #define FEAT_WINDOWS
 #define FEAT_FOLDING
-#define FEAT_CMDL_COMPL
 #define FEAT_CMDWIN
 #define FEAT_CMDL_COMPL
 #define FEAT_DIGRAPHS
