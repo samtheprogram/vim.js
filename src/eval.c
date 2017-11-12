@@ -15862,16 +15862,6 @@ theend:
 #ifdef FEAT_FLOAT
 
 /*
- * round() is not in C90, use ceil() or floor() instead.
- */
-    float_T
-vim_round(f)
-    float_T f;
-{
-    return f > 0 ? floor(f + 0.5) : ceil(f - 0.5);
-}
-
-/*
  * "round({float})" function
  */
     static void
@@ -24423,3 +24413,15 @@ do_string_sub(str, pat, sub, flags)
 }
 
 #endif /* defined(FEAT_MODIFY_FNAME) || defined(FEAT_EVAL) */
+
+#ifdef FEAT_FLOAT
+/*
+ * round() is not in C90, use ceil() or floor() instead.
+ */
+    float_T
+vim_round(f)
+    float_T f;
+{
+    return f > 0 ? floor(f + 0.5) : ceil(f - 0.5);
+}
+#endif
