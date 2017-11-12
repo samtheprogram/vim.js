@@ -44,15 +44,69 @@ call add(g:d_plugin["ctrlp"], "autoload/ctrlp/mrufiles.vim")
 call add(g:d_plugin["ctrlp"], "autoload/ctrlp/tag.vim")
 call add(g:d_plugin["ctrlp"], "autoload/ctrlp/undo.vim")
 
+" Nerdtree
+let g:d_plugin["nerdtree"] = ["https://github.com/scrooloose/nerdtree"]
 
+" Rainbow Parenthesis
+let g:d_plugin["rainbow_parenthesis"] = ["https://github.com/kien/rainbow_parentheses.vim"]
+call add(g:d_plugin["rainbow_parenthesis"], "plugin/rainbow_parentheses.vim")
+call add(g:d_plugin["rainbow_parenthesis"], "autoload/rainbow_parentheses.vim")
+
+" Easy Motion
+" TODO finish the big tree
+let g:d_plugin["easymotion"] = ["https://github.com/easymotion/vim-easymotion"]
+call add(g:d_plugin["easymotion"], "plugin/EasyMotion.vim")
+call add(g:d_plugin["easymotion"], "autoload/rainbow_parenthesis.vim")
+
+" UndoTree (Gundo requires python)
+" TODO manage syntax
+let g:d_plugin["undotree"] = ["https://github.com/mbbill/undotree"]
+call add(g:d_plugin["undotree"], "plugin/undotree.vim")
+call add(g:d_plugin["undotree"], "autoload/undotree.vim")
+call add(g:d_plugin["undotree"], "syntax/undotree.vim")
+
+
+" Vim Script
+" CamelCaseMotion
+let g:d_plugin["camelcasemotion"] = ["https://github.com/vim-scripts/camelcasemotion"]
+call add(g:d_plugin["camelcasemotion"], "plugin/camelcasemotion.vim")
+call add(g:d_plugin["camelcasemotion"], "autoload/camelcasemotion.vim")
+
+" DelimitMate
+let g:d_plugin["delimitMate"] = ["https://github.com/Raimondi/delimitMate"]
+call add(g:d_plugin["delimitMate"], "plugin/delimitMate.vim")
+call add(g:d_plugin["delimitMate"], "autoload/delimitMate.vim")
+
+" Matchit
+let g:d_plugin["matchit"] = ["https://github.com/vim-scripts/matchit.zip"]
+call add(g:d_plugin["matchit"], "plugin/matchit.vim")
+
+
+" TPOPE
 " Surround
 let g:d_plugin["surround"] = ["https://github.com/tpope/vim-surround"]
 call add(g:d_plugin["surround"], "plugin/surround.vim")
 
-let g:d_plugin["nerdtree"] = "https://github.com/scrooloose/nerdtree"
+" Commentray
+let g:d_plugin["commentary"] = ["https://github.com/tpope/vim-commentary"]
+call add(g:d_plugin["commentary"], "plugin/commentary.vim")
 
+" Unimpaired
+let g:d_plugin["unimpaired"] =["https://github.com/tpope/vim-unimpaired"]
+call add(g:d_plugin["unimpaired"], "plugin/unimpaired.vim")
 
-let g:d_plugin["none"] = "nothing"
+" Abolish
+let g:d_plugin["abolish"] = ["https://github.com/tpope/vim-abolish"]
+call add(g:d_plugin["abolish"], "plugin/abolish.vim")
+
+" Repeat
+let g:d_plugin["repeat"] = ["https://github.com/tpope/vim-repeat"]
+call add(g:d_plugin["repeat"], "autoload/repeat.vim")
+
+" TPOPE END
+
+" End
+let g:d_plugin["none"] = ["nothing"]
 
 function! LoadPlugin(name)
     " Load plugin if name in a list
@@ -66,15 +120,12 @@ function! LoadPlugin(name)
     " Create dir
     let l:cmd = '!Module["FS_createPath"]("/vim/plugin", "'
     let l:cmd .= a:name . '", true, true);'
-    echom "Cmd1: " . l:cmd
     silent execute l:cmd
     let l:cmd_p = '!Module["FS_createPath"]("/vim/plugin/' . a:name . '", '
     let l:cmd_p .= '"plugin", true, true);'
-    echom "Cmdp: " . l:cmd_p
     silent execute l:cmd_p
     let l:cmd_a = '!Module["FS_createPath"]("/vim/plugin/' . a:name . '", '
     let l:cmd_a .= '"autoload", true, true);'
-    echom "Cmda: " . l:cmd_a
     silent execute l:cmd_a
     
 
@@ -83,14 +134,9 @@ function! LoadPlugin(name)
     let l:url = l:d_list[0]
     call remove(l:d_list, 0)
     let l:sub_path1 = ""
-    let l:sub_path2 = ""
-
     for l:sub_path in l:d_list
       if (l:sub_path1 == "")
         let l:sub_path1 = l:sub_path
-      endif
-      if (l:sub_path2 == "")
-        let l:sub_path2 = l:sub_path
       endif
       let l:cmd2 = '!tin_url("'
       let l:cmd2 .= l:out_path . l:sub_path
@@ -99,9 +145,9 @@ function! LoadPlugin(name)
       let l:cmd2 .= '/master/'
       let l:cmd2 .= l:sub_path
       let l:cmd2 .= '");'
-      echom "Cmd2: " . l:cmd2
+      echom "Cmd2: " . l:cmd2 . ", " . l:sub_path
       silent execute l:cmd2
-      if (match(l:sub_path, "autoload/airline/") != -1)
+      if (match(l:sub_path, "autoload/") == 0)
         echo "Sourcing autoload: " . l:sub_path
         execute "source " . l:out_path . l:sub_path
       endif
