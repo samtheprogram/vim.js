@@ -25,8 +25,8 @@ function! TinMap()
 map gf gEWvE"fy:call ReadWrapper(@f)<CR>
 map gx gEWvE"fy:call OpenXref(@f)<CR>
 map gs :call DownloadFile()<CR>
-map <F8> :silent call Colorinc(1)<CR> 
-map <S-F8> :silent call Colorinc(-1)<CR> 
+map <F8> :call Colorinc(1)<CR>
+map <S-F8> :call Colorinc(-1)<CR>
 inoremap jk <esc>
 inoremap kj <esc>
 

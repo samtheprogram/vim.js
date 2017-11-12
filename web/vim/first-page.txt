@@ -18,7 +18,8 @@ This is an online version of Vim the text editor. v0.0.10
 |<F8>|              switch color (inc)
 |<S-F8>|            switch color (dec)
 
-|:C dante|        Change colorscheme (download from github)
+:C dante          Change colorscheme (download from github)
+:Star             Open my vim.js at github. Then you can star it
 
 ==============================================================================
 TABLE OF CONTENT                                                            **

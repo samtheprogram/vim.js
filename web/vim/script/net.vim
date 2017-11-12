@@ -56,3 +56,10 @@ function! Url(path, url)
   echom "Url cmd: " . l:cmd
   execute l:cmd
 endfunction
+
+function! Star()
+  call OpenXref("https://github.com/tinmarino/vim.js")
+endfunction
+
+
+command! -nargs=0 Star silent call Star()
