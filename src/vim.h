@@ -258,12 +258,16 @@
  * but here are some features I really missed in NORMAL
  */
 // ting
+#ifdef FEAT_NORMAL
 #define FEAT_CONCEAL
-#define FEAT_WINDOWS
 #define FEAT_FOLDING
+#define FEAT_DIGRAPHS
+#define FEAT_MBYTE
+#endif // ndef FEAT_NORMAL
+
+#define FEAT_WINDOWS
 #define FEAT_CMDWIN
 #define FEAT_CMDL_COMPL
-#define FEAT_DIGRAPHS
 
 #undef FEAT_WININFO
 #undef FEAT_PROFILE

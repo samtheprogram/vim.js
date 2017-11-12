@@ -1,9 +1,7 @@
 #!/bin/bash
 
 
-export CPPFLAGS=" \
-	-DFEAT_MBYTE \
-	-DFEAT_GUI_WEB" 
+export CPPFLAGS="-DFEAT_GUI_WEB"
 
 export CPP="gcc -E "
 
@@ -23,7 +21,7 @@ do_config() {
 emconfigure ./configure \
     --enable-gui=web \
     --prefix=$VIMDIR \
-    --with-features=big \
+    --with-features=normal \
     --disable-selinux \
     --disable-xsmp \
     --disable-xsmp-interact \
