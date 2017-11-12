@@ -17,7 +17,6 @@ char *profile_msg __ARGS((proftime_T *tm));
 void profile_setlimit __ARGS((long msec, proftime_T *tm));
 int profile_passed_limit __ARGS((proftime_T *tm));
 void profile_zero __ARGS((proftime_T *tm));
-void profile_divide __ARGS((proftime_T *tm, int count, proftime_T *tm2));
 void profile_add __ARGS((proftime_T *tm, proftime_T *tm2));
 void profile_self __ARGS((proftime_T *self, proftime_T *total, proftime_T *children));
 void profile_get_wait __ARGS((proftime_T *tm));
@@ -83,8 +82,4 @@ int source_finished __ARGS((char_u *(*fgetline)(int, void *, int), void *cookie)
 void ex_checktime __ARGS((exarg_T *eap));
 char_u *get_mess_lang __ARGS((void));
 void set_lang_var __ARGS((void));
-void ex_language __ARGS((exarg_T *eap));
-void free_locales __ARGS((void));
-char_u *get_lang_arg __ARGS((expand_T *xp, int idx));
-char_u *get_locales __ARGS((expand_T *xp, int idx));
 /* vim: set ft=c : */
