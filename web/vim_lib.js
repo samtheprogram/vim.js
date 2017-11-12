@@ -63,7 +63,7 @@ var LibraryVIM = {
       // macros defined in keymap.h
       var modifiers = 0;
       // shift already affects charCode
-      if(charCode && e.shiftKey) modifiers |= 0x02;
+      if(e.shiftKey) modifiers |= 0x02;
       if(e.ctrlKey) modifiers |= 0x04;
       if(e.altKey) modifiers |= 0x08;
       if(e.metaKey) modifiers |= 0x10;
