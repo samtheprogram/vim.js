@@ -265,7 +265,6 @@
 #define FEAT_MBYTE
 #endif // ndef FEAT_NORMAL
 
-#define FEAT_WINDOWS
 #define FEAT_CMDWIN
 #define FEAT_CMDL_COMPL
 
