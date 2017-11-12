@@ -56,10 +56,57 @@ call add(g:d_plugin["rainbow_parenthesis"], "autoload/rainbow_parentheses.vim")
 " TODO finish the big tree
 let g:d_plugin["easymotion"] = ["https://github.com/easymotion/vim-easymotion"]
 call add(g:d_plugin["easymotion"], "plugin/EasyMotion.vim")
-call add(g:d_plugin["easymotion"], "autoload/rainbow_parenthesis.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion/cmigemo.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion/highlight.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion/sticky_table.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion/migemo/eucjp.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion/migemo/utf8.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion/migemo/cp932.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion/overwin.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion/helper.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion/command_line.vim")
+call add(g:d_plugin["easymotion"], "autoload/EasyMotion/undo.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/easymotion.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Input.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/String.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Exception.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Signals.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Keymapping.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Base.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/Delete.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/History.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/CursorMove.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/Paste.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/ExceptionMessage.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/DrawCommandline.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/ExceptionExit.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/NoInsert.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/Cancel.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/KeyMapping.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/BufferComplete.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/Redraw.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/Exit.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/InsertRegister.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Over/Commandline/Modules/Doautocmd.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Data/Set.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Data/Dict.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Data/List.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Palette/Capture.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Palette/Keymapping.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Palette/Highlight.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/HitAHint")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/HitAHint/Hint.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/HitAHint/Motion.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Prelude.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Vim/Guard.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Vim/Buffer.vim")
+call add(g:d_plugin["easymotion"], "autoload/vital/_easymotion/Vim/Message.vim")
 
 " UndoTree (Gundo requires python)
-" TODO manage syntax
 let g:d_plugin["undotree"] = ["https://github.com/mbbill/undotree"]
 call add(g:d_plugin["undotree"], "plugin/undotree.vim")
 call add(g:d_plugin["undotree"], "autoload/undotree.vim")
@@ -145,19 +192,20 @@ function! LoadPlugin(name)
       let l:cmd2 .= '/master/'
       let l:cmd2 .= l:sub_path
       let l:cmd2 .= '");'
-      echom "Cmd2: " . l:cmd2 . ", " . l:sub_path
+      echom "Cmd2: " . l:cmd2
       silent execute l:cmd2
-      if (match(l:sub_path, "autoload/") == 0)
-        echo "Sourcing autoload: " . l:sub_path
+      if (match(l:sub_path, "syntax/") == 0)
         execute "source " . l:out_path . l:sub_path
       endif
     endfor
 
+    " Runtime path
+    let &runtimepath.=",/vim/plugin/" . a:name
+
+	" Source plugin
     echo "Sourcing plugin: " . l:sub_path1
     execute "source " . l:out_path . l:sub_path1
 
-    " Runtime path
-    let &runtimepath.=",/vim/plugin/" . a:name
 
 endfunction
 

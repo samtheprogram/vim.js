@@ -35,7 +35,23 @@ function tin_init(){
     Module["FS_createPath"]("/vim/plugin", "ctrlp", true, true);
     Module["FS_createPath"]("/vim/plugin/ctrlp", "autoload", true, true);
     Module["FS_createPath"]("/vim/plugin/ctrlp/autoload", "ctrlp", true, true);
-	
+    Module["FS_createPath"]("/vim/plugin", "undotree", true, true);
+    Module["FS_createPath"]("/vim/plugin/undotree", "syntax", true, true);
+    Module["FS_createPath"]("/vim/plugin", "easymotion", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion", "autoload", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion", "autoload", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload", "EasyMotion", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload/EasyMotion", "migemo", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload", "vital", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload/vital", "_easymotion", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload/vital/_easymotion", "Over", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload/vital/_easymotion", "Data", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload/vital/_easymotion", "Palette", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload/vital/_easymotion", "Vim", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload/vital/_easymotion", "Vim", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload/vital/_easymotion/Over", "Commandline", true, true);
+    Module["FS_createPath"]("/vim/plugin/easymotion/autoload/vital/_easymotion/Over/Commandline", "Modules", true, true);
+
 
     // Load first page
     tin_load("/vim/first-page.txt");
