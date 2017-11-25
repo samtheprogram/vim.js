@@ -73,6 +73,7 @@ emcc  \
     -s EMTERPRETIFY_ASYNC=1 \
     -s 'EMTERPRETIFY_FILE="vimjs.dat"' \
     --memory-init-file 1 \
+    -v \
     vim.bc \
     -o vim.js 
 

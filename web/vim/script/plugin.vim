@@ -134,7 +134,7 @@ call add(g:d_plugin["matchit"], "plugin/matchit.vim")
 let g:d_plugin["surround"] = ["https://github.com/tpope/vim-surround"]
 call add(g:d_plugin["surround"], "plugin/surround.vim")
 
-" Commentray
+" Commentary
 let g:d_plugin["commentary"] = ["https://github.com/tpope/vim-commentary"]
 call add(g:d_plugin["commentary"], "plugin/commentary.vim")
 
